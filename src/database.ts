@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize";
 
-export const sequelize = new Sequelize('postgres://${DB_USER_NAME}:${DB_USER_PASSWORD}@localhost:5432/${DB_NAME')
+export const sequelize = new Sequelize('postgres://max:max@localhost:5432/3wa-blog')
 
 export const dbConnect = async () => {
   await sequelize.sync();

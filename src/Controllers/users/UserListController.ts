@@ -3,8 +3,8 @@ import { UserModel } from "../../Models2/users/user_model";
 
 export const UserListController = {
   async list(req: Request, res: Response) {
-    // const users = await UserModel.findAll();
-    res.json({})
+    const users = await UserModel.findAll();
+    res.json(users)
   }
 }
 
