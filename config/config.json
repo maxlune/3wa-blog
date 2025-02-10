@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "max",
+    "password": "max",
+    "database": "3wa-blog",
+    "host": "127.0.0.1",
+    "dialect": "postgresql"
+  },
+  "test": {
+    "username": "max",
+    "password": "max",
+    "database": "3wa-blog",
+    "host": "127.0.0.1",
+    "dialect": "postgresql"
+  },
+  "production": {
+    "username": "max",
+    "password": "max",
+    "database": "3wa-blog",
+    "host": "127.0.0.1",
+    "dialect": "postgresql"
+  }
+}
