@@ -27,6 +27,27 @@ export class UserLoginController {
       res.status(500).send("Erreur lors de l'affichage du formulaire.");
     }
   }
+
+  // Affichage du profil
+  // static async profile(req: CustomRequest, res: Response) {
+  //   try {
+  //     const user = await prisma.user.findUnique({
+  //       where: { id: req.session.userId },
+  //     });
+  //
+  //     if (user) {
+  //       res.json({ userId: user.id, email: user.email, message: "Utilisateur connecté" });
+  //     } else {
+  //       res.status(404).json({ error: "Utilisateur non trouvé" });
+  //     }
+  //
+  //     res.render("users/profil", { title: "Profile" }, user);
+  //   } catch (error) {
+  //     console.error("Erreur lors de l'affichage du profil :", error)
+  //     res.status(500).send("Erreur lors de l'affichage du profil.")
+  //   }
+  // }
+
   static async login(req: CustomRequest, res: Response) {
     try {
       const { email, password } = req.body;
@@ -58,7 +79,7 @@ export class UserLoginController {
         where: { id: req.session.userId },
       });
       if (user) {
-        res.json({ userId: user.id, email: user.email, message: "Utilisateur connecté" });
+        return user
       } else {
         res.status(404).json({ error: "Utilisateur non trouvé" });
       }
