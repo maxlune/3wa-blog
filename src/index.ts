@@ -13,6 +13,9 @@ const server = http.createServer(app);
 
 app.use(express.json());
 
+app.set("view engine", "ejs");
+app.set("views", __dirname + "/../Views");
+
 const router = express.Router()
 
 router.get("/", (req: Request, res: Response) => {
@@ -24,8 +27,25 @@ router.get("/test", (req: Request, res: Response) => {
 });
 
 router.get("/users", UserListController.list);
-router.post("/posts", PostCreateController.create);
-router.get("/posts", PostListController.list);
+
+// router.post("/posts", PostCreateController.create);
+router.get("/posts/new", PostCreateController.new); // Affiche le formulaire
+router.post("/posts", PostCreateController.create); // Gère la soumission du formulaire
+
+router.get("/posts", async (req: any, res: any) => {
+  try {
+    const posts = await PostListController.list();
+
+    if (!posts || posts.length === 0) {
+      return res.status(404).send("Aucun article trouvé.");
+    }
+
+    return res.render("posts", { title: "Liste des articles", posts });
+  } catch (error) {
+    console.error("Erreur dans la route /posts:", error);
+    res.status(500).send("Erreur lors du chargement des articles.");
+  }
+});
 
 app.use('/', router);
 
