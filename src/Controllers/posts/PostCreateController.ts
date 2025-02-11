@@ -7,7 +7,7 @@ export class PostCreateController {
   // Affichage du formulaire 
   static async new(req: Request, res: Response) {
     try {
-      res.render("create-post", { title: "Créer un nouvel article" });
+      res.render("posts/create-post", { title: "Créer un nouvel article" });
     } catch (error) {
       console.error("Erreur lors de l'affichage du formulaire :", error);
       res.status(500).send("Erreur lors de l'affichage du formulaire.");
@@ -17,7 +17,6 @@ export class PostCreateController {
   // Handle submit
   static async create(req: any, res: any) {
     try {
-      console.log(req.body); // Vérifie les données reçues
       const { title, content } = req.body;
       if (!title || !content) {
         return res.status(400).send("Le titre et le contenu sont requis.");

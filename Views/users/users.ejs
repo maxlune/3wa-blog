@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= title %></title>
+</head>
+<body>
+  <h1><a href="/">Blog</a></h1>
+  <h2><%= title %></h2>
+  <ul>
+    <% users.forEach(user => { %>
+      <li><a href="/posts/<%= user.id %>"><%= user.nickname %></a></li>
+    <% }) %>
+  </ul>
+
+  <a href="/users/new">Nouveau</a>
+</body>
+</html>

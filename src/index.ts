@@ -28,7 +28,7 @@ app.set("views", __dirname + "/../Views");
 
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Express + TypeScript Server");
+  return res.render("index");
 });
 
 app.get("/test", (req: Request, res: Response) => {

@@ -5,6 +5,16 @@ import bcrypt from "bcrypt";
 const prisma = new PrismaClient();
 
 export class UserLoginController {
+
+  // Affichage du formulaire 
+  static async loginForm(req: Request, res: Response) {
+    try {
+      res.render("users/login", { title: "Connexion" });
+    } catch (error) {
+      console.error("Erreur lors de l'affichage du formulaire :", error);
+      res.status(500).send("Erreur lors de l'affichage du formulaire.");
+    }
+  }
   static async login(req: Request, res: Response) {
     try {
       const { id, nickname, password } = req.body;

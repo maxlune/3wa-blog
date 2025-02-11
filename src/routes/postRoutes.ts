@@ -7,6 +7,7 @@ import express from "express";
 
 const router = express.Router();
 
+router.get("/posts/new", PostCreateController.new); 
 router.post("/posts", PostCreateController.create);
 
 router.get("/posts", async (req: any, res: any) => {
@@ -17,14 +18,13 @@ router.get("/posts", async (req: any, res: any) => {
       return res.status(404).send("Aucun article trouvé.");
     }
 
-    return res.render("posts", { title: "Liste des articles", posts });
+    return res.render("posts/posts", { title: "Liste des articles", posts });
   } catch (error) {
     console.error("Erreur dans la route /posts:", error);
     res.status(500).send("Erreur lors du chargement des articles.");
   }
 });
 
-router.get("/posts/new", PostCreateController.new); 
 
 router.get("/posts/:id", async (req: any, res: any) => {
   try {
@@ -34,7 +34,7 @@ router.get("/posts/:id", async (req: any, res: any) => {
       return res.status(404).send("Article introuvable.");
     }
 
-    return res.render("post-detail", { title: "Détail d'un article", post });
+    return res.render("posts/post-detail", { title: "Détail d'un article", post });
   } catch (error) {
     console.error("Erreur dans la route /posts/:id :", error);
     res.status(500).send("Erreur lors du chargement de l'article.");

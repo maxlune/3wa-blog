@@ -4,21 +4,18 @@ import { Request, Response } from "express";
 const prisma = new PrismaClient();
 
 export class UserListController {
-  static async list(req: Request, res: Response) {
+  static async list(): Promise<any> {
     try {
       const users = await prisma.user.findMany({
-        select: {
-          id: true,
-          email: true,
-          nickname: true,
-          isContributor: true,
+        orderBy: {
+          email: 'desc',
         },
       });
 
-      res.json(users);
+      return users;
     } catch (error) {
-      console.error('Erreur lors de la récupération des utilisateurs:', error);
-      res.status(500).json({ error: 'Erreur lors de la récupération des utilisateurs' });
+      console.error('Erreur lors de la récupération des users:', error);
+      return null;
     }
   }
 }

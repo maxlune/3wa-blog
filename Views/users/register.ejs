@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+</head>
+<body>
+    <h1><a href="/">Blog</a></h1>
+  <h2><%= title %></h2>
+  <form action="/users" method="POST" id="register-form">
+    <div>
+        <label for="email">Email :</label>
+        <input type="email" id="email" name="email" required>
+    </div>
+    <div>
+      <label for="nickname">Pseudo :</label>
+      <input type="text" id="nickname" name="nickname" required>
+    </div>
+    <div>
+      <label for="password">Mot de passe :</label>
+      <input type="password" id="password" name="password" required>
+    </div>
+    <div>
+        <label for="passwordCheck">Confirmation de Mot de passe :</label>
+        <input type="password" id="passwordCheck" name="passwordCheck" required>
+    </div>
+    <div>
+        <label for="isContributor">Contributeur ?</label>
+        <input type="checkbox" value="true" id="isContributor" name="isContributor">
+    </div>
+    <button type="submit">S'inscrire</button>
+  </form>
+
+  <a href="/users/login">Se connecter</a>
+
+
+  <script>
+    document.getElementById('register-form').addEventListener('submit', function(event) {
+      const password = document.getElementById('password').value;
+      const passwordCheck = document.getElementById('passwordCheck').value;
+      
+      if (password !== passwordCheck) {
+        event.preventDefault(); // Empêche la soumission du formulaire
+        alert("Les mots de passe ne correspondent pas.");
+      }
+    });
+  </script>
+
+</body>
+</html>

@@ -19,7 +19,7 @@ export class PostUpdateController {
         return res.status(404).send("Post non trouvé.");
       }
 
-      res.render("edit-post", { title: "Modifier l'article", post });
+      res.render("posts/edit-post", { title: "Modifier l'article", post });
     } catch (error) {
       console.error("Erreur lors de l'affichage du formulaire :", error);
       res.status(500).send("Erreur lors de l'affichage du formulaire.");
