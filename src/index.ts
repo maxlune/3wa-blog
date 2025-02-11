@@ -11,6 +11,10 @@ const server = http.createServer(app);
 
 app.use(express.json());
 
+app.set("view engine", "ejs");
+app.set("views", __dirname + "/../Views");
+
+
 app.get("/", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server");
 });

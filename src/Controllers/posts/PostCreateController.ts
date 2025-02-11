@@ -4,21 +4,36 @@ import { Request, Response } from "express";
 const prisma = new PrismaClient();
 
 export class PostCreateController {
-  static async create(req: Request, res: Response) {
+  // Affichage du formulaire 
+  static async new(req: Request, res: Response) {
+    try {
+      res.render("create-post", { title: "Créer un nouvel article" });
+    } catch (error) {
+      console.error("Erreur lors de l'affichage du formulaire :", error);
+      res.status(500).send("Erreur lors de l'affichage du formulaire.");
+    }
+  }
+
+  // Handle submit
+  static async create(req: any, res: any) {
     try {
       const { title, content } = req.body;
+
+      if (!title || !content) {
+        return res.status(400).send("Le titre et le contenu sont requis.");
+      }
 
       const post = await prisma.post.create({
         data: {
           title,
           content,
-        }
+        },
       });
 
-      res.status(201).json(post);
+      res.redirect("/posts"); 
     } catch (error) {
-      console.error('Erreur lors de la création du post:', error);
-      res.status(500).json({ error: 'Erreur lors de la création du post' });
+      console.error("Erreur lors de la création du post:", error);
+      res.status(500).send("Erreur lors de la création du post.");
     }
   }
 }
