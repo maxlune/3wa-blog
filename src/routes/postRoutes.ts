@@ -8,7 +8,7 @@ import express from "express";
 const router = express.Router();
 
 router.post("/posts", PostCreateController.create);
-// router.get("/posts", PostListController.list);
+
 router.get("/posts", async (req: any, res: any) => {
   try {
     const posts = await PostListController.list();
@@ -23,16 +23,35 @@ router.get("/posts", async (req: any, res: any) => {
     res.status(500).send("Erreur lors du chargement des articles.");
   }
 });
-router.get("/posts/:id", PostDetailController.detail)
-router.put("/posts/:id", (req, res, next) => {
-  PostUpdateController.update(req, res).catch(next);
+
+router.get("/posts/new", PostCreateController.new); 
+
+router.get("/posts/:id", async (req: any, res: any) => {
+  try {
+    const post = await PostDetailController.detail(req.params.id);
+
+    if (!post) {
+      return res.status(404).send("Article introuvable.");
+    }
+
+    return res.render("post-detail", { title: "Détail d'un article", post });
+  } catch (error) {
+    console.error("Erreur dans la route /posts/:id :", error);
+    res.status(500).send("Erreur lors du chargement de l'article.");
+  }
 });
+
+
+
+router.get("/posts/:id/edit", PostUpdateController.edit); // Affichage du formulaire
+router.put("/posts/:id", (req, res, next) => {
+  PostUpdateController.update(req, res).catch(next); // Soumission update PUT
+});
+
+
 router.delete("/posts/:id", (req, res, next) => {
   PostDeleteController.delete(req, res).catch(next);
 })
-
-// router.get("/posts/new", PostCreateController.new); // Affiche le formulaire
-// router.post("/posts", PostCreateController.create); // Gère la soumission du formulaire
 
 
 export default router;

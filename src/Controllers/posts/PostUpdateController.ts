@@ -4,6 +4,27 @@ import { Request, Response } from "express";
 const prisma = new PrismaClient();
 
 export class PostUpdateController {
+
+  // Form
+  static async edit(req: any, res: any) {
+    try {
+      const postId = req.params.id;
+      const id = Number(postId);
+
+      const post = await prisma.post.findUnique({
+        where: { id },
+      });
+
+      if (!post) {
+        return res.status(404).send("Post non trouvé.");
+      }
+
+      res.render("edit-post", { title: "Modifier l'article", post });
+    } catch (error) {
+      console.error("Erreur lors de l'affichage du formulaire :", error);
+      res.status(500).send("Erreur lors de l'affichage du formulaire.");
+    }
+  }
   static async update(req: Request, res: Response) {
     try {
       const postId = req.params.id;
@@ -32,7 +53,8 @@ export class PostUpdateController {
         },
       });
 
-      res.status(200).json(updatedPost);
+      // res.status(200).json(updatedPost);
+      res.redirect(`/posts/${updatedPost.id}`);
     } catch (error) {
       console.error("Erreur lors de la mise à jour du post:", error);
       res.status(500).json({ error: "Erreur lors de la mise à jour du post" });

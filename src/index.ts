@@ -2,6 +2,7 @@ import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import http from "http"
 import router from "./routes";
+import methodOverride from "method-override";
 
 dotenv.config();
 
@@ -10,6 +11,9 @@ const port = process.env.PORT || 3000;
 const server = http.createServer(app);
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride("_method"));
+
 
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/../Views");

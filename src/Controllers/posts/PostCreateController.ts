@@ -17,8 +17,8 @@ export class PostCreateController {
   // Handle submit
   static async create(req: any, res: any) {
     try {
+      console.log(req.body); // Vérifie les données reçues
       const { title, content } = req.body;
-
       if (!title || !content) {
         return res.status(400).send("Le titre et le contenu sont requis.");
       }
