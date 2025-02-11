@@ -2,6 +2,7 @@ import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import http from "http"
 import router from "./routes";
+import session from "express-session";
 import methodOverride from "method-override";
 
 dotenv.config();
@@ -14,6 +15,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
+
+app.use(
+  session({
+    secret: "secret-session",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/../Views");
