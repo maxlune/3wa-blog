@@ -36,10 +36,13 @@ router.get("/users", async (req: any, res: any) => {
 
 // router.get("/users/me", UserLoginController.me);
 router.get("/users/me", async (req: any, res: any) => {
-  try {
-    const user = await UserLoginController.me(req, res)
 
-    return res.render("users/me", { title: "Profil", user });
+  const isAuthenticated = !!req.cookies["connect.sid"];
+
+  try {
+    const user = await UserLoginController.me(req, res);
+
+    return res.render("users/me", { title: "Profil", user, isAuthenticated: isAuthenticated });
   } catch (error) {
     console.error("Erreur dans la route /users/me :", error);
     res.status(500).send("Erreur lors du chargement de l'utilisateur.");
