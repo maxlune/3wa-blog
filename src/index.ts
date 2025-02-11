@@ -2,6 +2,7 @@ import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import http from "http"
 import router from "./routes";
+import session from "express-session";
 
 dotenv.config();
 
@@ -10,6 +11,14 @@ const port = process.env.PORT || 3000;
 const server = http.createServer(app);
 
 app.use(express.json());
+
+app.use(
+  session({
+    secret: "secret-session",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/../Views");
