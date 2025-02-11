@@ -37,16 +37,19 @@ export class UserLoginController {
       })
 
       if (!user) {
-        return res.status(401).json({ error: "Identifiants invalides"})
+        res.status(401).json({ error: "Identifiants invalides"})
+        return
       }
 
       const isValid = await bcrypt.compare(password, user.password);
       if (!isValid) {
-        return res.status(401).json({ error: "Identifiants invalides" });
+        res.status(401).json({ error: "Identifiants invalides" });
+        return
       }
 
       req.session.userId = user.id;
-      res.json({ message: "Connexion réussie" });
+      // res.json({ message: "Connexion réussie" });
+      res.redirect("/users/me")
     } catch (error) {
       console.error("Erreur lors de la connexion:", error);
       res.status(500).json({ error: "Erreur lors de la connexion" });
