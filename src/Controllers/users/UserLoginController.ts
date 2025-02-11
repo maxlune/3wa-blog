@@ -22,6 +22,7 @@ export class UserLoginController {
         return res.status(401).json({ error: "Identifiants invalides" });
       }
 
+      // req.session.userId = user.id
       res.json({ message: "Connexion réussie" });
     } catch (error) {
       console.error("Erreur lors de la connexion:", error);
