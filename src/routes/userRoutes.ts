@@ -32,13 +32,12 @@ router.get("/users", async (req: any, res: any) => {
   }
 });
 
+router.get("/users/me", UserLoginController.me);
 router.get("/users/:id", UserDetailController.detail);
 
 router.delete("/users/:id", (req, res, next) => {
   UserDeleteController.delete(req, res).catch(next);
 })
-
-
 router.post("/users/logout", UserLogoutController.logout);
 
 export default router;
