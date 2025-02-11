@@ -1,7 +1,9 @@
 import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import http from "http"
-import { UserListController } from "./Controllers/users/UserListController";
+import {UserListController} from "./Controllers/users/UserListController";
+import {PostCreateController} from "./Controllers/posts/PostCreateController";
+import {PostListController} from "./Controllers/posts/PostListController";
 
 dotenv.config();
 
@@ -9,23 +11,23 @@ const app: Express = express();
 const port = process.env.PORT || 3000;
 const server = http.createServer(app);
 
+app.use(express.json());
+
 const router = express.Router()
 
-app.use(router)
-
-app.get("/", (req: Request, res: Response) => {
+router.get("/", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server");
 });
 
-app.get("/test", (req: Request, res: Response) => {
+router.get("/test", (req: Request, res: Response) => {
   res.send("Test");
 });
 
-// app.get("/users", (req: Request, res: Response) => {
-//   res.send("Test Users")
-// })
+router.get("/users", UserListController.list);
+router.post("/posts", PostCreateController.create);
+router.get("/posts", PostListController.list);
 
-router.get("/users", UserListController.list)
+app.use('/', router);
 
 server.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
