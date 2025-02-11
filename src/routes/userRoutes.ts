@@ -25,7 +25,9 @@ router.get("/users", async (req: any, res: any) => {
       return res.status(404).send("Aucun user trouvé.");
     }
 
-    return res.render("users/users", { title: "Liste des Utilisateurs", users });
+    const isAuthenticated = !!req.cookies["connect.sid"];
+
+    return res.render("users/users", { title: "Liste des Utilisateurs", users, isAuthenticated });
   } catch (error) {
     console.error("Erreur dans la route users/users:", error);
     res.status(500).send("Erreur lors du chargement des utilisateurs.");

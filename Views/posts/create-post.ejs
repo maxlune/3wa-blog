@@ -22,5 +22,14 @@
 
   <a href="/posts">Retour à la liste</a>
 
+  <!-- Formulaire de déconnexion -->
+  <br />
+  <br />
+  <form action="/users/logout" method="POST">
+    <% if (isAuthenticated) { %>
+      <button type="submit">Se déconnecter</button>
+    <% } %>
+  </form>
+
 </body>
 </html>

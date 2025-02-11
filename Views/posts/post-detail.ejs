@@ -21,6 +21,15 @@
     <br />
     <a href="/posts/new">Nouveau</a>
 
+    <!-- Formulaire de déconnexion -->
+    <br />
+    <br />
+    <form action="/users/logout" method="POST">
+      <% if (isAuthenticated) { %>
+        <button type="submit">Se déconnecter</button>
+      <% } %>
+    </form>
+
     <script>
         document.getElementById("delete-btn").addEventListener("click", async () => {
           if (confirm("Voulez-vous vraiment supprimer cet article ?")) {

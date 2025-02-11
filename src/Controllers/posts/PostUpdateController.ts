@@ -19,7 +19,9 @@ export class PostUpdateController {
         return res.status(404).send("Post non trouvé.");
       }
 
-      res.render("posts/edit-post", { title: "Modifier l'article", post });
+      const isAuthenticated = !!req.cookies["connect.sid"];
+
+      res.render("posts/edit-post", { title: "Modifier l'article", post, isAuthenticated });
     } catch (error) {
       console.error("Erreur lors de l'affichage du formulaire :", error);
       res.status(500).send("Erreur lors de l'affichage du formulaire.");

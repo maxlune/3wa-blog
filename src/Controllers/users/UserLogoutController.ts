@@ -7,7 +7,8 @@ export class UserLogoutController {
         console.error("Erreur lors de la déconnexion:", err);
         return res.status(500).json({ error: "Erreur lors de la déconnexion" });
       }
-      res.json({ message: "Déconnexion réussie" });
+      res.clearCookie("connect.sid", { path: "/" });
+      res.redirect("/users/login");
     });
   }
 }

@@ -8,6 +8,12 @@ export class UserCreateController {
 
   // Affichage du formulaire 
   static async new(req: Request, res: Response) {
+    
+    const isAuthenticated = !!req.cookies["connect.sid"];
+    if (isAuthenticated) {
+      return res.redirect("/");
+    }
+
     try {
       res.render("users/register", { title: "Inscription" });
     } catch (error) {

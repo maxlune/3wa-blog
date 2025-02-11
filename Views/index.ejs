@@ -1,10 +1,33 @@
-<h1>Blog</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Blog</title>
+</head>
+<body>
+    <h1>Blog</h1>
 
-<a href="users/login">Se connecter</a>
-<a href="users/new">S'inscrire</a>
+    <% if (!isAuthenticated) { %>
+    <a href="users/login">Se connecter</a>
+    <a href="users/new">S'inscrire</a>
+    <% } %>
 
-<br /><br />
-<a href="/posts">Liste des articles</a>
-<br />
-<a href="/users">Liste des utilisateurs</a>
-
+    <% if (isAuthenticated) { %>
+        <a href="/users/me">Mon profil (WIP route)</a>
+    <% } %>
+    
+    <br /><br />
+    <a href="/posts">Liste des articles</a>
+    <br />
+    <a href="/users">Liste des utilisateurs</a>
+    
+    <!-- Formulaire de déconnexion -->
+    <br />
+    <br />
+        <form action="/users/logout" method="POST">
+        <% if (isAuthenticated) { %>
+        <button type="submit">Se déconnecter</button>
+        <% } %>
+    </form>
+</body>
+</html>

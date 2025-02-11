@@ -4,6 +4,7 @@ import http from "http"
 import router from "./routes";
 import session from "express-session";
 import methodOverride from "method-override";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
@@ -14,6 +15,7 @@ const server = http.createServer(app);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
+app.use(cookieParser());
 
 app.use(
   session({
@@ -28,7 +30,9 @@ app.set("views", __dirname + "/../Views");
 
 
 app.get("/", (req: Request, res: Response) => {
-  return res.render("index");
+  const isAuthenticated = !!req.cookies["connect.sid"];
+
+  return res.render("index", { isAuthenticated: isAuthenticated});
 });
 
 app.get("/test", (req: Request, res: Response) => {

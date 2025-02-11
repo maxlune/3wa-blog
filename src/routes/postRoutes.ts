@@ -18,7 +18,9 @@ router.get("/posts", async (req: any, res: any) => {
       return res.status(404).send("Aucun article trouvé.");
     }
 
-    return res.render("posts/posts", { title: "Liste des articles", posts });
+    const isAuthenticated = !!req.cookies["connect.sid"];
+
+    return res.render("posts/posts", { title: "Liste des articles", posts, isAuthenticated });
   } catch (error) {
     console.error("Erreur dans la route /posts:", error);
     res.status(500).send("Erreur lors du chargement des articles.");
@@ -34,7 +36,9 @@ router.get("/posts/:id", async (req: any, res: any) => {
       return res.status(404).send("Article introuvable.");
     }
 
-    return res.render("posts/post-detail", { title: "Détail d'un article", post });
+    const isAuthenticated = !!req.cookies["connect.sid"];
+
+    return res.render("posts/post-detail", { title: "Détail d'un article", post, isAuthenticated  });
   } catch (error) {
     console.error("Erreur dans la route /posts/:id :", error);
     res.status(500).send("Erreur lors du chargement de l'article.");

@@ -14,6 +14,12 @@ export class UserLoginController {
 
   // Affichage du formulaire
   static async loginForm(req: Request, res: Response) {
+    
+    const isAuthenticated = !!req.cookies["connect.sid"];
+    if (isAuthenticated) {
+      return res.redirect("/");
+    }
+
     try {
       res.render("users/login", { title: "Connexion" });
     } catch (error) {

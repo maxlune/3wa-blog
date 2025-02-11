@@ -7,7 +7,9 @@ export class PostCreateController {
   // Affichage du formulaire 
   static async new(req: Request, res: Response) {
     try {
-      res.render("posts/create-post", { title: "Créer un nouvel article" });
+      const isAuthenticated = !!req.cookies["connect.sid"];
+
+      res.render("posts/create-post", { title: "Créer un nouvel article", isAuthenticated });
     } catch (error) {
       console.error("Erreur lors de l'affichage du formulaire :", error);
       res.status(500).send("Erreur lors de l'affichage du formulaire.");
