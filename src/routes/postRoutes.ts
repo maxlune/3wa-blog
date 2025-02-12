@@ -14,10 +14,6 @@ router.get("/posts", async (req: any, res: any) => {
   try {
     const posts = await PostListController.list();
 
-    if (!posts || posts.length === 0) {
-      return res.status(404).send("Aucun article trouvé.");
-    }
-
     const isAuthenticated = !!req.cookies["connect.sid"];
 
     return res.render("posts/posts", { title: "Liste des articles", posts, isAuthenticated });

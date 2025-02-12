@@ -13,7 +13,9 @@ export class UserDetailController {
         where: { id },
       });
 
-      res.json(user);
+      const userWithoutPassword = { ...user, password: undefined };
+
+      res.json(userWithoutPassword);
     } catch (error) {
       console.error("Erreur lors de la récupération de l'utilisateur:", error);
       res.status(500).json({ error: "Erreur lors de la récupération de l'utilisateur" });

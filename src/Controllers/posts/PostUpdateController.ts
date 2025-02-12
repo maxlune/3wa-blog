@@ -1,19 +1,18 @@
-import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
-
-const prisma = new PrismaClient();
+import { PostRepository } from "../../Repositories/PostRepository";
 
 export class PostUpdateController {
 
   // Form
   static async edit(req: any, res: any) {
     try {
-      const postId = req.params.id;
-      const id = Number(postId);
+      const postId = Number(req.params.id);
+      if (isNaN(postId)) {
+        return res.status(400).send("ID invalide.");
+      }
 
-      const post = await prisma.post.findUnique({
-        where: { id },
-      });
+      // Utilisation du PostRepository pour récupérer le post
+      const post = await PostRepository.getPostById(postId);
 
       if (!post) {
         return res.status(404).send("Post non trouvé.");
@@ -29,9 +28,7 @@ export class PostUpdateController {
   }
   static async update(req: Request, res: Response) {
     try {
-      const postId = req.params.id;
-      const id = Number(postId);
-
+      const postId = Number(req.params.id);
       const { title, content } = req.body;
 
       if (title === undefined && content === undefined) {
@@ -40,22 +37,13 @@ export class PostUpdateController {
         });
       }
 
-      const postExists = await prisma.post.findUnique({
-        where: { id },
-      });
+      const postExists = await PostRepository.postExists(postId);
       if (!postExists) {
         return res.status(404).json({ error: "Post non trouvé" });
       }
 
-      const updatedPost = await prisma.post.update({
-        where: { id },
-        data: {
-          title: title !== undefined ? title : postExists.title,
-          content: content !== undefined ? content : postExists.content,
-        },
-      });
+      const updatedPost = await PostRepository.updatePost(postId, { title, content });
 
-      // res.status(200).json(updatedPost);
       res.redirect(`/posts/${updatedPost.id}`);
     } catch (error) {
       console.error("Erreur lors de la mise à jour du post:", error);

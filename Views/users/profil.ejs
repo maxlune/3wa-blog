@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile de <%= user.nickname %></title>
+</head>
+<body>
+    <h1><a href="/">Blog</a></h1>
+
+    <h1>Profile de <%= user.nickname %></h1>
+    <h2><%= user.nickname %></h2>
+    <h2><%= user.email %></h2>
+
+    <span>Contributeur :</span>
+    <% if (user.isContributor) { %><span>Oui</span><% } %>
+    <% if (!user.isContributor) { %><span>Non</span><% } %>
+
+    <!-- Formulaire de déconnexion -->
+    <br />
+    <br />
+        <form action="/users/logout" method="POST">
+        <% if (isAuthenticated) { %>
+        <button type="submit">Se déconnecter</button>
+        <% } %>
+    </form>
+
+</body>
+</html>

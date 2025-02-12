@@ -21,10 +21,6 @@ router.get("/users", async (req: any, res: any) => {
   try {
     const users = await UserListController.list();
 
-    if (!users || users.length === 0) {
-      return res.status(404).send("Aucun user trouvé.");
-    }
-
     const isAuthenticated = !!req.cookies["connect.sid"];
 
     return res.render("users/users", { title: "Liste des Utilisateurs", users, isAuthenticated });

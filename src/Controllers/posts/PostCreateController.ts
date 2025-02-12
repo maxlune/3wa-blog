@@ -1,7 +1,5 @@
-import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
-
-const prisma = new PrismaClient();
+import { PostRepository } from "../../Repositories/PostRepository";
 
 export class PostCreateController {
   // Affichage du formulaire 
@@ -24,12 +22,7 @@ export class PostCreateController {
         return res.status(400).send("Le titre et le contenu sont requis.");
       }
 
-      const post = await prisma.post.create({
-        data: {
-          title,
-          content,
-        },
-      });
+      await PostRepository.createPost({ title, content });
 
       res.redirect("/posts"); 
     } catch (error) {

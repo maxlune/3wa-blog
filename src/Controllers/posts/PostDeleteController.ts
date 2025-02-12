@@ -1,7 +1,5 @@
-import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
-
-const prisma = new PrismaClient();
+import { PostRepository } from "../../Repositories/PostRepository";
 
 export class PostDeleteController {
   static async delete(req: Request, res: Response) {
@@ -9,16 +7,13 @@ export class PostDeleteController {
       const postId = req.params.id;
       const id = Number(postId);
 
-      const postExists = await prisma.post.findUnique({
-        where: { id },
-      });
+      const postExists = await PostRepository.postExists(id);
+
       if (!postExists) {
         return res.status(404).json({ error: "Post non trouvé" });
       }
 
-      await prisma.post.delete({
-        where: { id },
-      });
+      await PostRepository.deletePost(id);
 
       res.status(200).json({ message: "Post supprimé avec succès" });
     } catch (error) {
