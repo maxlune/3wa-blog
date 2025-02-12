@@ -6,7 +6,7 @@
     "build": "npx tsc",
     "start": "node dist/index.js",
     "dev": "npx tsc && nodemon src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "migrate": "npx prisma migrate dev",
     "dbpush": "npx prisma db push"
   },
@@ -31,11 +31,14 @@
     "@types/ejs": "^3.1.5",
     "@types/express": "^5.0.0",
     "@types/express-session": "^1.18.1",
+    "@types/jest": "^29.5.14",
     "@types/method-override": "^3.0.0",
     "@types/node": "^22.13.1",
     "concurrently": "^9.1.2",
+    "jest": "^29.7.0",
     "nodemon": "^3.1.9",
     "prisma": "^6.3.1",
+    "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
     "tsx": "^4.19.2",
     "typescript": "^5.7.3"
