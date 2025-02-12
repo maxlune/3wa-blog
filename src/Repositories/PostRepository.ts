@@ -3,11 +3,11 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export class PostRepository {
-  static async createPost(data: { title: string; content: string, userId: number}) {
+  async createPost(data: { title: string; content: string, userId: number}) {
     return await prisma.post.create({ data });
   }
 
-  static async getPostById(postId: number) {
+  async getPostById(postId: number) {
     return await prisma.post.findUnique({
       where: { id: postId },
       include: {
@@ -20,7 +20,7 @@ export class PostRepository {
     });
   }
 
-  static async getAllPosts() {
+  async getAllPosts() {
     return await prisma.post.findMany({
       orderBy: {
         createdAt: "desc",
@@ -28,20 +28,20 @@ export class PostRepository {
     });
   }
 
-  static async updatePost(postId: number, data: Partial<{ title: string; content: string }>) {
+  async updatePost(postId: number, data: Partial<{ title: string; content: string }>) {
     return await prisma.post.update({
       where: { id: postId },
       data,
     });
   }
 
-  static async deletePost(postId: number) {
-    return await prisma.post.delete({
+  async deletePost(postId: number): Promise<void> {
+    await prisma.post.delete({
       where: { id: postId },
     });
   }
 
-  static async postExists(postId: number) {
+  async postExists(postId: number): Promise<{id: number, createdAt: Date, updatedAt: Date, title: string, content: string, userId: number} | null> {
     return await prisma.post.findUnique({
       where: { id: postId },
     });

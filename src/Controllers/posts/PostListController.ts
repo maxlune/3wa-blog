@@ -1,11 +1,12 @@
-import { Request, Response } from "express";
-import { PostRepository } from "../../Repositories/PostRepository";
+import {IPostRepository} from "../../interfaces/IPostRepository";
 
 export class PostListController {
-  static async list(): Promise<any> {
+  constructor(private postRepository: IPostRepository) {}
+
+  async list(): Promise<any> {
     try {
 
-      return await PostRepository.getAllPosts();
+      return await this.postRepository.getAllPosts();
       
     } catch (error) {
       console.error('Erreur lors de la récupération des posts:', error);

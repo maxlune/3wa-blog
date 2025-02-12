@@ -1,19 +1,21 @@
 import { Request, Response } from "express";
-import { PostRepository } from "../../Repositories/PostRepository";
+import {IPostRepository} from "../../interfaces/IPostRepository";
 
 export class PostDeleteController {
-  static async delete(req: Request, res: Response) {
+  constructor(private postRepository: IPostRepository) {}
+
+  async delete(req: Request, res: Response) {
     try {
       const postId = req.params.id;
       const id = Number(postId);
 
-      const postExists = await PostRepository.postExists(id);
+      const postExists = await this.postRepository.postExists(id);
 
       if (!postExists) {
         return res.status(404).json({ error: "Post non trouvé" });
       }
 
-      await PostRepository.deletePost(id);
+      await this.postRepository.deletePost(id);
 
       res.status(200).json({ message: "Post supprimé avec succès" });
     } catch (error) {

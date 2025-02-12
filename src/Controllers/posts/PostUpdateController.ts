@@ -1,10 +1,12 @@
 import { Request, Response } from "express";
-import { PostRepository } from "../../Repositories/PostRepository";
+import {IPostRepository} from "../../interfaces/IPostRepository";
+import {PostRepository} from "../../Repositories/PostRepository";
 
 export class PostUpdateController {
+  constructor(private postRepository: IPostRepository) {}
 
   // Form
-  static async edit(req: any, res: any) {
+  edit = async (req: any, res: any) => {
     try {
       const postId = Number(req.params.id);
       if (isNaN(postId)) {
@@ -12,7 +14,7 @@ export class PostUpdateController {
       }
 
       // Utilisation du PostRepository pour récupérer le post
-      const post = await PostRepository.getPostById(postId);
+      const post = await this.postRepository.getPostById(postId);
 
       if (!post) {
         return res.status(404).send("Post non trouvé.");
@@ -26,7 +28,7 @@ export class PostUpdateController {
       res.status(500).send("Erreur lors de l'affichage du formulaire.");
     }
   }
-  static async update(req: Request, res: Response) {
+  update = async (req: Request, res: Response) => {
     try {
       const postId = Number(req.params.id);
       const { title, content } = req.body;
@@ -37,12 +39,12 @@ export class PostUpdateController {
         });
       }
 
-      const postExists = await PostRepository.postExists(postId);
+      const postExists = await this.postRepository.postExists(postId);
       if (!postExists) {
         return res.status(404).json({ error: "Post non trouvé" });
       }
 
-      const updatedPost = await PostRepository.updatePost(postId, { title, content });
+      const updatedPost = await this.postRepository.updatePost(postId, { title, content });
 
       res.redirect(`/posts/${updatedPost.id}`);
     } catch (error) {

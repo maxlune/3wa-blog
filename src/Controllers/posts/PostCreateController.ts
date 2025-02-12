@@ -1,8 +1,11 @@
 import { Request, Response } from "express";
 import { PostRepository } from "../../Repositories/PostRepository";
+import {IPostRepository} from "../../interfaces/IPostRepository";
 
 export class PostCreateController {
-  // Affichage du formulaire 
+  constructor(private postRepository: IPostRepository) {}
+
+  // Affichage du formulaire
   static async new(req: Request, res: Response) {
     try {
       const isAuthenticated = !!req.cookies["connect.sid"];
@@ -15,7 +18,7 @@ export class PostCreateController {
   }
 
   // Handle submit
-  static async create(req: any, res: any) {
+  create = async (req: any, res: any) => {
     try {
       const { title, content } = req.body;
       if (!title || !content) {
@@ -27,7 +30,7 @@ export class PostCreateController {
         return res.status(401).send("Vous devez être connecté pour créer un article.");
       }
 
-      await PostRepository.createPost({ title, content, userId });
+      await this.postRepository.createPost({ title, content, userId });
 
       res.redirect("/posts"); 
     } catch (error) {
