@@ -1,7 +1,7 @@
-import {UserRepository} from "../../Repositories/UserRepository";
+import {IUserRepository} from "../../interfaces/IUserRepository";
 
 export class UserListController {
-  constructor(private userRepository: UserRepository) {}
+  constructor(private userRepository: IUserRepository) {}
 
   async list(): Promise<any> {
     try {

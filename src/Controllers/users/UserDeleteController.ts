@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import {UserRepository} from "../../Repositories/UserRepository";
+import {IUserRepository} from "../../interfaces/IUserRepository";
 
 export class UserDeleteController {
-  constructor(private userRepository: UserRepository) {}
+  constructor(private userRepository: IUserRepository) {}
 
   async delete(req: Request, res: Response) {
     try {

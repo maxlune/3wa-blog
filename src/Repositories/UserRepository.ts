@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import {PrismaClient, User} from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -14,11 +14,11 @@ export class UserRepository {
         nickname,
         password,
         isContributor,
-      },
+      }
     });
   }
 
-  async findOne(id: number) {
+  async findOne(id: number): Promise<User | null> {
     return prisma.user.findUnique({ where: { id } });
   }
 
@@ -42,7 +42,7 @@ export class UserRepository {
     return prisma.user.findUnique({ where: { email } });
   }
 
-  async delete(id: number) {
-    return prisma.user.delete({ where: { id } });
+  async delete(id: number): Promise<void> {
+    prisma.user.delete({ where: { id } });
   }
 }

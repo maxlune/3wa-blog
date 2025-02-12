@@ -44,7 +44,7 @@ router.get("/users/me", async (req: any, res: any) => {
   const isAuthenticated = !!req.cookies["connect.sid"];
 
   try {
-    const user = await UserLoginController.me(req, res);
+    const user = await userLoginController.me(req, res);
 
     return res.render("users/me", { title: "Profil", user, isAuthenticated: isAuthenticated });
   } catch (error) {

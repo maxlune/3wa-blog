@@ -1,9 +1,9 @@
 import {PrismaClient} from "@prisma/client";
 import { Request, Response } from "express";
-import {UserRepository} from "../../Repositories/UserRepository";
+import {IUserRepository} from "../../interfaces/IUserRepository";
 
 export class UserDetailController {
-  constructor(private userRepository: UserRepository) {}
+  constructor(private userRepository: IUserRepository) {}
 
   async detail(req: Request, res: Response) {
     try {

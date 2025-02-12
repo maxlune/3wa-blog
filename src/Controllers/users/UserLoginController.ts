@@ -3,8 +3,6 @@ import {Request, Response} from "express";
 import bcrypt from "bcrypt";
 import {UserRepository} from "../../Repositories/UserRepository";
 
-const prisma = new PrismaClient();
-
 export interface CustomRequest extends Request {
   session: {
     userId?: number;
@@ -56,7 +54,7 @@ export class UserLoginController {
     }
   }
 
-  static async me(req: CustomRequest, res: Response) {
+  async me(req: CustomRequest, res: Response) {
     if (req.session.userId) {
       const user = await UserRepository.findOneWithPosts(Number(req.session.userId));
       if (user) {

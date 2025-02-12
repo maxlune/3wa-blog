@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
-import {UserRepository} from "../../Repositories/UserRepository";
+import {IUserRepository} from "../../interfaces/IUserRepository";
 
 export class UserCreateController {
-  constructor(private userRepository: UserRepository) {}
+  constructor(private userRepository: IUserRepository) {}
 
   // Affichage du formulaire
   static async new(req: Request, res: Response) {
