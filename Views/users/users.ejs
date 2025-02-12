@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= title %></title>
+</head>
+<body>
+  <h1><a href="/">Blog</a></h1>
+  <h2><%= title %></h2>
+
+  <% if (users.length === 0) { %>
+    <p>Aucun Utilisateur trouvé</p>
+  <% } %>
+
+
+  <ul>
+    <% users.forEach(user => { %>
+      <li><a href="/users/<%= user.id %>"><%= user.nickname %></a> <% if (user.isContributor) { %>&nbsp; <span>(contributeur)</span><% } %></li>
+    <% }) %>
+  </ul>
+
+  <a href="/users/new">Nouveau</a>
+
+  <!-- Formulaire de déconnexion -->
+  <br />
+  <br />
+  <form action="/users/logout" method="POST">
+    <% if (isAuthenticated) { %>
+      <button type="submit">Se déconnecter</button>
+    <% } %>
+  </form>
+</body>
+</html>

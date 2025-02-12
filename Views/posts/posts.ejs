@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= title %></title>
+</head>
+<body>
+  <h1><a href="/">Blog</a></h1>
+  <h2><%= title %></h2>
+
+  <% if (posts.length === 0) { %>
+  <p>Aucun article trouvé</p>
+  <% } %>
+
+  <ul>
+    <% posts.forEach(post => { %>
+      <li><a href="/posts/<%= post.id %>"><%= post.title %></a></li>
+    <% }) %>
+  </ul>
+
+  <a href="/posts/new">Nouveau</a>
+
+  <!-- Formulaire de déconnexion -->
+  <br />
+  <br />
+  <form action="/users/logout" method="POST">
+    <% if (isAuthenticated) { %>
+      <button type="submit">Se déconnecter</button>
+    <% } %>
+  </form>
+</body>
+</html>

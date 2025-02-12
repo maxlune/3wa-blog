@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+</head>
+<body>
+  <h1><a href="/">Blog</a></h1>
+  <h2><%= title %></h2>
+  <form action="/posts" method="POST">
+    <div>
+      <label for="title">Titre :</label>
+      <input type="text" id="title" name="title" required>
+    </div>
+    <div>
+      <label for="content">Contenu :</label>
+      <textarea id="content" name="content" rows="5" required></textarea>
+    </div>
+    <button type="submit">Créer l'article</button>
+  </form>
+
+  <a href="/posts">Retour à la liste</a>
+
+  <!-- Formulaire de déconnexion -->
+  <br />
+  <br />
+  <form action="/users/logout" method="POST">
+    <% if (isAuthenticated) { %>
+      <button type="submit">Se déconnecter</button>
+    <% } %>
+  </form>
+
+</body>
+</html>

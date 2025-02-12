@@ -1,10 +1,14 @@
-import { Request, Response } from "express";
-import { UserModel } from "../../Models2/users/user_model";
+import {IUserRepository} from "../../interfaces/IUserRepository";
 
-export const UserListController = {
-  async list(req: Request, res: Response) {
-    const users = await UserModel.findAll();
-    res.json(users)
+export class UserListController {
+  constructor(private userRepository: IUserRepository) {}
+
+  async list(): Promise<any> {
+    try {
+      return await this.userRepository.findAll();
+    } catch (error) {
+      console.error('Erreur lors de la récupération des users:', error);
+      return null;
+    }
   }
 }
-

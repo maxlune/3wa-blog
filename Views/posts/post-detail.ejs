@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= title %></title>
+</head>
+<body>
+  <h1><a href="/">Blog</a></h1>
+  <h2><%= title %></h2>
+    <p>Titre: <%= post.title %></p>
+    <p>Contenu: <%= post.content %></p>
+    <p>Auteur: <a href="/users/<%= post.userId %>"><%= post.user ? post.user.nickname : "Auteur inconnu" %></a></p>
+    <button id="delete-btn">Supprimer cet article</button>
+    <a href="/posts/<%= post.id %>/edit">
+      <button type="button">Editer cet article</button>
+    </a>
+
+    <br />
+    <br />
+
+    <a href="/posts">Retour à la liste</a>
+    <br />
+    <a href="/posts/new">Nouveau</a>
+
+    <!-- Formulaire de déconnexion -->
+    <br />
+    <br />
+    <form action="/users/logout" method="POST">
+      <% if (isAuthenticated) { %>
+        <button type="submit">Se déconnecter</button>
+      <% } %>
+    </form>
+
+    <script>
+        document.getElementById("delete-btn").addEventListener("click", async () => {
+          if (confirm("Voulez-vous vraiment supprimer cet article ?")) {
+            const response = await fetch("/posts/<%= post.id %>", {
+              method: "DELETE"
+            });
+      
+            if (response.ok) {
+              window.location.href = "/posts";
+            } else {
+              alert("Erreur lors de la suppression de l'article.");
+            }
+          }
+        });
+      </script>
+</body>
+</html>

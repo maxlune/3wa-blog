@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mon Profile</title>
+</head>
+<body>
+    <h1><a href="/">Blog</a></h1>
+
+    <h1>Mon profile</h1>
+    <h2><%= user.nickname %></h2>
+    <h2><%= user.email %></h2>
+
+    <span>Contributeur :</span>
+    <% if (user.isContributor) { %><span>Oui</span><% } %>
+    <% if (!user.isContributor) { %><span>Non</span><% } %>
+
+
+    <h3>Articles publiés :</h3>
+    <% if (user.posts && user.posts.length > 0) { %>
+    <ul>
+        <% user.posts.forEach(post => { %>
+        <li>
+            <a href="/posts/<%= post.id %>"><%= post.title %></a> - <%= post.createdAt.toLocaleDateString() %>
+        </li>
+        <% }) %>
+    </ul>
+    <% } else { %>
+    <p>Aucun article publié.</p>
+    <% } %>
+
+    <!-- Formulaire de déconnexion -->
+    <br />
+    <br />
+        <form action="/users/logout" method="POST">
+        <% if (isAuthenticated) { %>
+        <button type="submit">Se déconnecter</button>
+        <% } %>
+    </form>
+
+</body>
+</html>
