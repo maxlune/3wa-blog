@@ -4,6 +4,7 @@ const findManyMock = jest.fn();
 const findUniqueMock = jest.fn();
 const deleteMock = jest.fn();
 const createMock = jest.fn();
+const updateMock = jest.fn();
 
 jest.mock("@prisma/client", () => {
   return {
@@ -12,7 +13,8 @@ jest.mock("@prisma/client", () => {
         findMany: findManyMock,
         findUnique: findUniqueMock,
         delete: deleteMock,
-        create: createMock
+        create: createMock,
+        update: updateMock,
       },
     })),
   };
@@ -117,4 +119,35 @@ describe("PostRepository", () => {
       expect(result).toEqual(mockedPosts[0]);
     });
   });
+  describe('updatePost', () => {
+    test('update a post (titre et content)', async () => {
+      const mockUpdatedPost: Post = {
+        id: 1,
+        title: "Updated title",
+        content: "Updated content",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        userId: 1,
+      };
+      updateMock.mockResolvedValue(mockUpdatedPost);
+
+      const updatedPost = await postRepository.updatePost(1, { title: "titre updated", content: "content updated" });
+
+      expect(updateMock).toHaveBeenCalledTimes(1);
+      expect(updateMock).toHaveBeenCalledWith({
+        where: { id: 1 },
+        data: { title: "titre updated", content: "content updated" },
+      });
+      expect(updatedPost).toEqual(mockUpdatedPost);
+    });
+
+    test("update a post: error when postId invalid", async () => {
+
+      updateMock.mockRejectedValue(new Error("Post not found"));
+      await expect(postRepository.updatePost(999, { title: "test title" })).rejects.toThrow("Post not found");
+
+      expect(updateMock).toHaveBeenCalledTimes(1);
+    });
+  })
 })
+
