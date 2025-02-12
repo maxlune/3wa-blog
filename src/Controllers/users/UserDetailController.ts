@@ -2,16 +2,15 @@ import {PrismaClient} from "@prisma/client";
 import { Request, Response } from "express";
 import {UserRepository} from "../../Repositories/UserRepository";
 
-const prisma = new PrismaClient();
-
 export class UserDetailController {
-  static async detail(req: Request, res: Response) {
+  constructor(private userRepository: UserRepository) {}
+
+  async detail(req: Request, res: Response) {
     try {
       const userId = req.params.id;
       const id = Number(userId)
 
-      // const user = UserRepository.findOne(id)
-      const user = await UserRepository.findOneWithPosts(id);
+      const user = await this.userRepository.findOneWithPosts(id);
       if (!user) {
         return res.status(404).send("Utilisateur non trouvé.");
       }

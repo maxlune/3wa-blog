@@ -12,6 +12,7 @@ export interface CustomRequest extends Request {
 }
 
 export class UserLoginController {
+  constructor(private userRepository: UserRepository) {}
 
   // Affichage du formulaire
   static async loginForm(req: Request, res: Response) {
@@ -29,11 +30,11 @@ export class UserLoginController {
     }
   }
 
-  static async login(req: CustomRequest, res: Response) {
+  async login(req: CustomRequest, res: Response) {
     try {
       const { email, password } = req.body;
 
-      const user = await UserRepository.findOneByEmail(email);
+      const user = await this.userRepository.findOneByEmail(email);
 
       if (!user) {
         res.status(401).json({ error: "Identifiants invalides"})

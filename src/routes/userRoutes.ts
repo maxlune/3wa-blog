@@ -5,21 +5,29 @@ import {UserCreateController} from "../Controllers/users/UserCreateController";
 import {UserDeleteController} from "../Controllers/users/UserDeleteController";
 import {UserLoginController} from "../Controllers/users/UserLoginController";
 import {UserLogoutController} from "../Controllers/users/UserLogoutController";
+import {UserRepository} from "../Repositories/UserRepository";
 
 const router = express.Router()
 
+const userRepository = new UserRepository();
+const userListController = new UserListController(userRepository);
+const userCreateController = new UserCreateController(userRepository);
+const userLoginController = new UserLoginController(userRepository);
+const userDeleteController = new UserDeleteController(userRepository);
+const userDetailController = new UserDetailController(userRepository);
+
 router.get("/users/new", UserCreateController.new); // GET formulaire d'inscription
-router.post("/users", UserCreateController.create); // handle submit
+router.post("/users", userCreateController.create); // handle submit
 
 router.get("/users/login", UserLoginController.loginForm); // GET formulaire de connexion
 router.post("/users/login", (req, res, next) => {
-  UserLoginController.login(req, res).catch(next);
+  userLoginController.login(req, res).catch(next);
 })
 
 // router.get("/users", UserListController.list);
 router.get("/users", async (req: any, res: any) => {
   try {
-    const users = await UserListController.list();
+    const users = await userListController.list();
 
     const isAuthenticated = !!req.cookies["connect.sid"];
 
@@ -45,7 +53,6 @@ router.get("/users/me", async (req: any, res: any) => {
   }
 })
 
-// router.get("/users/:id", UserDetailController.detail);
 router.get("/users/:id", async (req: any, res: any) => {
 
   const isAuthenticated = !!req.cookies["connect.sid"];
@@ -61,7 +68,7 @@ router.get("/users/:id", async (req: any, res: any) => {
 })
 
 router.delete("/users/:id", (req, res, next) => {
-  UserDeleteController.delete(req, res).catch(next);
+  userDeleteController.delete(req, res).catch(next);
 })
 router.post("/users/logout", UserLogoutController.logout);
 

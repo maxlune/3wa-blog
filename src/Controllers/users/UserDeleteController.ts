@@ -1,21 +1,20 @@
-import {PrismaClient} from "@prisma/client";
 import { Request, Response } from "express";
 import {UserRepository} from "../../Repositories/UserRepository";
 
-const prisma = new PrismaClient();
-
 export class UserDeleteController {
-  static async delete(req: Request, res: Response) {
+  constructor(private userRepository: UserRepository) {}
+
+  async delete(req: Request, res: Response) {
     try {
       const userId = req.params.id;
       const id = Number(userId);
 
-      const userExists = UserRepository.findOne(id)
+      const userExists = this.userRepository.findOne(id)
       if (!userExists) {
         return res.status(404).json({ error: "Utilisateur non trouvé" });
       }
 
-      await UserRepository.delete(id)
+      await this.userRepository.delete(id)
 
       res.status(200).json({ message: "Utilisateur supprimé avec succès" });
     } catch (error) {

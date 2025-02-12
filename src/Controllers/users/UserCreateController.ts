@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import {UserRepository} from "../../Repositories/UserRepository";
 
 export class UserCreateController {
+  constructor(private userRepository: UserRepository) {}
 
   // Affichage du formulaire
   static async new(req: Request, res: Response) {
@@ -21,7 +22,7 @@ export class UserCreateController {
   }
 
   // Handle form register
-  static async create(req: any, res: any) {
+  create = async (req: any, res: any) => {
     try {
       const { email, nickname, password, passwordCheck, isContributor } = req.body;
 
@@ -30,10 +31,9 @@ export class UserCreateController {
       }
 
       const hashedPassword = await bcrypt.hash(password, 10);
-
       const isContributorBoolean = isContributor === "true"; // Conversion en boolean
 
-      await UserRepository.create(
+      await this.userRepository.create(
         email,
         nickname,
         hashedPassword,
