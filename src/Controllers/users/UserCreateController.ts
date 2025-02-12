@@ -1,14 +1,12 @@
-import {PrismaClient} from "@prisma/client";
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
-
-const prisma = new PrismaClient();
+import {UserRepository} from "../../Repositories/UserRepository";
 
 export class UserCreateController {
 
-  // Affichage du formulaire 
+  // Affichage du formulaire
   static async new(req: Request, res: Response) {
-    
+
     const isAuthenticated = !!req.cookies["connect.sid"];
     if (isAuthenticated) {
       return res.redirect("/");
@@ -33,17 +31,14 @@ export class UserCreateController {
 
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      const user = await prisma.user.create({
-        data: {
-          email,
-          nickname,
-          password: hashedPassword,
-          isContributor: isContributor === "true",
-        }
-      });
+      await UserRepository.create(
+        email,
+        nickname,
+        hashedPassword,
+        isContributor,
+      )
 
-      const { password: pwd, ...userWithoutPassword } = user;
-      res.redirect("/users/login"); 
+      res.redirect("/users/login");
     } catch (error) {
       console.error(`Erreur lors de la création de l'utilisateur:`, error);
       res.status(500).json({ error: `Erreur lors de la création de l'utilisateur` });

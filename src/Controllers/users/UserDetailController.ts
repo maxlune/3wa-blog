@@ -1,5 +1,6 @@
 import {PrismaClient} from "@prisma/client";
 import { Request, Response } from "express";
+import {UserRepository} from "../../Repositories/UserRepository";
 
 const prisma = new PrismaClient();
 
@@ -9,9 +10,7 @@ export class UserDetailController {
       const userId = req.params.id;
       const id = Number(userId)
 
-      const user = await prisma.user.findUnique({
-        where: { id },
-      });
+      const user = UserRepository.findOne(id)
 
       res.json(user);
     } catch (error) {

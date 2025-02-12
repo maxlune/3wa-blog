@@ -1,10 +1,11 @@
 import {PrismaClient} from "@prisma/client";
 import {Request, Response} from "express";
 import bcrypt from "bcrypt";
+import {UserRepository} from "../../Repositories/UserRepository";
 
 const prisma = new PrismaClient();
 
-interface CustomRequest extends Request {
+export interface CustomRequest extends Request {
   session: {
     userId?: number;
   } & Request["session"];
@@ -14,7 +15,7 @@ export class UserLoginController {
 
   // Affichage du formulaire
   static async loginForm(req: Request, res: Response) {
-    
+
     const isAuthenticated = !!req.cookies["connect.sid"];
     if (isAuthenticated) {
       return res.redirect("/");
@@ -32,9 +33,7 @@ export class UserLoginController {
     try {
       const { email, password } = req.body;
 
-      const user = await prisma.user.findUnique({
-        where: { email },
-      })
+      const user = await UserRepository.findOneByEmail(email);
 
       if (!user) {
         res.status(401).json({ error: "Identifiants invalides"})
