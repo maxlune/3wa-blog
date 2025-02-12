@@ -31,11 +31,13 @@ export class UserCreateController {
 
       const hashedPassword = await bcrypt.hash(password, 10);
 
+      const isContributorBoolean = isContributor === "true"; // Conversion en boolean
+
       await UserRepository.create(
         email,
         nickname,
         hashedPassword,
-        isContributor,
+        isContributorBoolean,
       )
 
       res.redirect("/users/login");

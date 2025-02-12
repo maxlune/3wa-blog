@@ -45,7 +45,20 @@ router.get("/users/me", async (req: any, res: any) => {
   }
 })
 
-router.get("/users/:id", UserDetailController.detail);
+// router.get("/users/:id", UserDetailController.detail);
+router.get("/users/:id", async (req: any, res: any) => {
+
+  const isAuthenticated = !!req.cookies["connect.sid"];
+
+  try {
+    const user = await UserLoginController.detail(req, res);
+
+    return res.render("users/profil", { title: "Profil", user, isAuthenticated: isAuthenticated });
+  } catch (error) {
+    console.error("Erreur dans la route /users/me :", error);
+    res.status(500).send("Erreur lors du chargement de l'utilisateur.");
+  }
+})
 
 router.delete("/users/:id", (req, res, next) => {
   UserDeleteController.delete(req, res).catch(next);

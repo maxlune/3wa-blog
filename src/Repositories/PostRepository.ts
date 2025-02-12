@@ -3,13 +3,20 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export class PostRepository {
-  static async createPost(data: { title: string; content: string }) {
+  static async createPost(data: { title: string; content: string, userId: number}) {
     return await prisma.post.create({ data });
   }
 
   static async getPostById(postId: number) {
     return await prisma.post.findUnique({
       where: { id: postId },
+      include: {
+        user: {
+          select: {
+            nickname: true, // On récupère uniquement le pseudo de l'auteur en plus
+          },
+        },
+      },
     });
   }
 

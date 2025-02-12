@@ -10,6 +10,8 @@ export class PostDetailController {
         throw new Error("ID non valide");
       }
 
+      // console.log(await PostRepository.getPostById(id));
+
       return await PostRepository.getPostById(id);
     } catch (error) {
       console.error("Erreur lors de la récupération du post:", error);
