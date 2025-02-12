@@ -14,9 +14,7 @@ export class UserDetailController {
         return res.status(404).send("Utilisateur non trouvé.");
       }
 
-      const userWithoutPassword = { ...user, password: undefined };
-
-      res.json(userWithoutPassword);
+      return { ...user, password: undefined };
     } catch (error) {
       console.error("Erreur lors de la récupération de l'utilisateur:", error);
       res.status(500).json({ error: "Erreur lors de la récupération de l'utilisateur" });
