@@ -1,7 +1,7 @@
-import {PrismaClient} from "@prisma/client";
 import {Request, Response} from "express";
 import bcrypt from "bcrypt";
 import {UserRepository} from "../../Repositories/UserRepository";
+import {IUserRepository} from "../../interfaces/IUserRepository";
 
 export interface CustomRequest extends Request {
   session: {
@@ -10,7 +10,7 @@ export interface CustomRequest extends Request {
 }
 
 export class UserLoginController {
-  constructor(private userRepository: UserRepository) {}
+  constructor(private userRepository: IUserRepository) {}
 
   // Affichage du formulaire
   static async loginForm(req: Request, res: Response) {
@@ -56,7 +56,7 @@ export class UserLoginController {
 
   async me(req: CustomRequest, res: Response) {
     if (req.session.userId) {
-      const user = await UserRepository.findOneWithPosts(Number(req.session.userId));
+      const user = await this.userRepository.findOneWithPosts(Number(req.session.userId));
       if (user) {
         return user
       } else {
@@ -67,8 +67,8 @@ export class UserLoginController {
     }
   }
 
-  static async detail(req: CustomRequest, res: Response) {
-      const user = await UserRepository.findOneWithPosts(Number(req.params.id));
+  async detail(req: CustomRequest, res: Response) {
+      const user = await this.userRepository.findOneWithPosts(Number(req.params.id));
       if (user) {
         return user
       } else {

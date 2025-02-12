@@ -38,7 +38,7 @@ export class UserRepository {
     });
   }
 
-  static async findOneByEmail(email: string) {
+  async findOneByEmail(email: string) {
     return prisma.user.findUnique({ where: { email } });
   }
 
