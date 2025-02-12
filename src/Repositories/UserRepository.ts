@@ -22,6 +22,23 @@ export class UserRepository {
     return prisma.user.findUnique({ where: { id } });
   }
 
+  static async findOneWithPosts(id: number) {
+    return await prisma.user.findUnique({
+      where: { id: id },
+      include: {
+        posts: {
+          orderBy: { createdAt: 'desc' },
+          select: {
+            id: true,
+            title: true,
+            createdAt: true,
+          },
+        },
+      },
+    });
+  }
+  
+
   static async findOneByEmail(email: string) {
     return prisma.user.findUnique({ where: { email } });
   }

@@ -10,7 +10,11 @@ export class UserDetailController {
       const userId = req.params.id;
       const id = Number(userId)
 
-      const user = UserRepository.findOne(id)
+      // const user = UserRepository.findOne(id)
+      const user = await UserRepository.findOneWithPosts(id);
+      if (!user) {
+        return res.status(404).send("Utilisateur non trouvé.");
+      }
 
       const userWithoutPassword = { ...user, password: undefined };
 

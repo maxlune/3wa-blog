@@ -57,9 +57,7 @@ export class UserLoginController {
 
   static async me(req: CustomRequest, res: Response) {
     if (req.session.userId) {
-      const user = await prisma.user.findUnique({
-        where: { id: req.session.userId },
-      });
+      const user = await UserRepository.findOneWithPosts(Number(req.session.userId));
       if (user) {
         return user
       } else {
@@ -68,5 +66,14 @@ export class UserLoginController {
     } else {
       res.status(401).json({ error: "Non connecté" });
     }
+  }
+
+  static async detail(req: CustomRequest, res: Response) {
+      const user = await UserRepository.findOneWithPosts(Number(req.params.id));
+      if (user) {
+        return user
+      } else {
+        res.status(404).json({ error: "Utilisateur non trouvé" });
+      }
   }
 }

@@ -22,7 +22,12 @@ export class PostCreateController {
         return res.status(400).send("Le titre et le contenu sont requis.");
       }
 
-      await PostRepository.createPost({ title, content });
+      const userId = req.session?.userId; 
+      if (!userId) {
+        return res.status(401).send("Vous devez être connecté pour créer un article.");
+      }
+
+      await PostRepository.createPost({ title, content, userId });
 
       res.redirect("/posts"); 
     } catch (error) {
