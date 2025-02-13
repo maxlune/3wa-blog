@@ -4,7 +4,7 @@ import {PostDetailController} from "../Controllers/posts/PostDetailController";
 import {PostUpdateController} from "../Controllers/posts/PostUpdateController";
 import {PostDeleteController} from "../Controllers/posts/PostDeleteController";
 import express from "express";
-import {PostRepository} from "../Repositories/PostRepository";
+import { PostRepository } from "../../infrastructure/Repositories/PostRepository";
 
 const router = express.Router();
 

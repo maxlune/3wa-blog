@@ -1,7 +1,7 @@
 import {Request, Response} from "express";
 import bcrypt from "bcrypt";
-import {UserRepository} from "../../Repositories/UserRepository";
-import {IUserRepository} from "../../interfaces/IUserRepository";
+import { UserRepository } from "../../../infrastructure/Repositories/UserRepository";
+import { IUserRepository } from "../../../domain/repositories-interfaces/IUserRepository";
 
 export interface CustomRequest extends Request {
   session: {

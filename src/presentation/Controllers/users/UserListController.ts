@@ -1,4 +1,4 @@
-import {IUserRepository} from "../../interfaces/IUserRepository";
+import { IUserRepository } from "../../../domain/repositories-interfaces/IUserRepository";
 
 export class UserListController {
   constructor(private userRepository: IUserRepository) {}

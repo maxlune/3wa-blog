@@ -1,6 +1,13 @@
-import {PrismaClient, User} from "@prisma/client";
+import {PrismaClient} from "@prisma/client";
 
-const prisma = new PrismaClient();
+// const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  datasources: {
+    db: {
+      url: "file:./models/prisma/schema.prisma", 
+    },
+  },
+});
 
 export class UserRepository {
   async findAll() {
@@ -18,7 +25,7 @@ export class UserRepository {
     });
   }
 
-  async findOne(id: number): Promise<User | null> {
+  async findOne(id: number) {
     return prisma.user.findUnique({ where: { id } });
   }
 

@@ -1,4 +1,4 @@
-import {IPostRepository} from "../../interfaces/IPostRepository";
+import { IPostRepository } from "../../../domain/repositories-interfaces/IPostRepository";
 
 export class PostDetailController {
   constructor(private postRepository: IPostRepository) {}

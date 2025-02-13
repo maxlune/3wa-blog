@@ -7,8 +7,10 @@
     "start": "node dist/index.js",
     "dev": "npx tsc && nodemon src/index.ts",
     "test": "jest",
-    "migrate": "npx prisma migrate dev",
-    "dbpush": "npx prisma db push"
+    "generate": "npx prisma generate --schema=./src/infrastructure/models/prisma/schema.prisma",
+    "migrate": "npx prisma migrate dev --schema=./src/infrastructure/models/prisma/schema.prisma",
+    "studio": "npx prisma studio --schema=./src/infrastructure/models/prisma/schema.prisma",
+    "dbpush": "npx prisma db push --schema=./src/infrastructure/models/prisma/schema.prisma"
   },
   "keywords": [],
   "author": "",

@@ -1,6 +1,13 @@
 import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient();
+// const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  datasources: {
+    db: {
+      url: "file:../models/prisma/schema.prisma", 
+    },
+  },
+});
 
 export class PostRepository {
   async createPost(data: { title: string; content: string, userId: number}) {
