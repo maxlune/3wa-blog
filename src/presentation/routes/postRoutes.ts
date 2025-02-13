@@ -9,6 +9,7 @@ import {PostListService} from "../../application/services/PostListService";
 import {PostDetailService} from "../../application/services/PostDetailService";
 import {PostDeleteService} from "../../application/services/PostDeleteService";
 import {PostCreateService} from "../../application/services/PostCreateService";
+import {PostUpdateService} from "../../application/services/PostUpdateService";
 
 const router = express.Router();
 
@@ -23,8 +24,9 @@ const postDetailController = new PostDetailController(postDetailService);
 const postDeleteService = new PostDeleteService(postRepository);
 const postDeleteController = new PostDeleteController(postDeleteService);
 
-const postUpdateController = new PostUpdateController(postRepository)
-const postEditController = new PostUpdateController(postRepository)
+const postUpdateService = new PostUpdateService(postRepository);
+const postUpdateController = new PostUpdateController(postUpdateService)
+const postEditController = new PostUpdateController(postUpdateService)
 
 router.get("/posts/new", PostCreateController.new);
 router.post("/posts", postCreateController.create);

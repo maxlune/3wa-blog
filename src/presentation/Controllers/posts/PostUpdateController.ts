@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import {IPostRepository} from "../../../domain/repositories-interfaces/IPostRepository";
+import {PostUpdateService} from "../../../application/services/PostUpdateService";
 
 export class PostUpdateController {
-  constructor(private postRepository: IPostRepository) {}
+  constructor(private postUpdateService: PostUpdateService) {}
 
   // Form
   edit = async (req: any, res: any) => {
@@ -13,7 +13,7 @@ export class PostUpdateController {
       }
 
       // Utilisation du PostRepository pour récupérer le post
-      const post = await this.postRepository.getPostById(postId);
+      const post = await this.postUpdateService.getPostById(postId);
 
       if (!post) {
         return res.status(404).send("Post non trouvé.");
@@ -32,23 +32,20 @@ export class PostUpdateController {
       const postId = Number(req.params.id);
       const { title, content } = req.body;
 
-      if (title === undefined && content === undefined) {
-        return res.status(400).json({
-          error: "Au moins un des champs 'title' ou 'content' est requis pour la mise à jour.",
-        });
+      const updatedPost = await this.postUpdateService.update( title, content, postId);
+
+      if (updatedPost) {
+        res.redirect(`/posts/${updatedPost.id}`);
       }
-
-      const postExists = await this.postRepository.postExists(postId);
-      if (!postExists) {
-        return res.status(404).json({ error: "Post non trouvé" });
-      }
-
-      const updatedPost = await this.postRepository.updatePost(postId, { title, content });
-
-      res.redirect(`/posts/${updatedPost.id}`);
     } catch (error) {
-      console.error("Erreur lors de la mise à jour du post:", error);
-      res.status(500).json({ error: "Erreur lors de la mise à jour du post" });
+      if (error instanceof Error) {
+        if (error.message === "Post non trouvé") {
+          res.status(404).json({ error: error.message });
+        } else {
+          console.error("Erreur dans le contrôleur PostUpdateController:", error);
+          res.status(500).json({ error: "Erreur lors de la mise à jour du post" });
+        }
+      }
     }
   }
 }
