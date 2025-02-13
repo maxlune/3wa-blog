@@ -1,12 +1,11 @@
 import { Request, Response } from "express";
-import bcrypt from "bcrypt";
-import {IUserRepository} from "../../../domain/repositories-interfaces/IUserRepository";
+import { UserCreateService } from "../../../application/services/users/UserCreateService";
 
 export class UserCreateController {
-  constructor(private userRepository: IUserRepository) {}
+  constructor(private userCreateService: UserCreateService) {}
 
-  // Affichage du formulaire
-  static async new(req: Request, res: Response) {
+  // Affichage du formulaire si non connecté
+  new = async(req: Request, res: Response) => {
 
     const isAuthenticated = !!req.cookies["connect.sid"];
     if (isAuthenticated) {
@@ -24,26 +23,11 @@ export class UserCreateController {
   // Handle form register
   create = async (req: any, res: any) => {
     try {
-      const { email, nickname, password, passwordCheck, isContributor } = req.body;
-
-      if (password !== passwordCheck) {
-        return res.status(400).send("Les mots de passe ne correspondent pas.");
-      }
-
-      const hashedPassword = await bcrypt.hash(password, 10);
-      const isContributorBoolean = isContributor === "true"; // Conversion en boolean
-
-      await this.userRepository.create(
-        email,
-        nickname,
-        hashedPassword,
-        isContributorBoolean,
-      )
-
+      await this.userCreateService.createUser(req.body);
       res.redirect("/users/login");
     } catch (error) {
-      console.error(`Erreur lors de la création de l'utilisateur:`, error);
-      res.status(500).json({ error: `Erreur lors de la création de l'utilisateur` });
+      console.error("Erreur lors de la création de l'utilisateur:", error);
+      res.status(400).send("Erreur lors de la création de l'utilisateur.");
     }
-  }
+  };
 }
