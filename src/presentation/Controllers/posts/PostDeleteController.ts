@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { PostDeleteService } from "../../../application/services/PostDeleteService";
+import {PostDeleteService} from "../../../application/services/posts/PostDeleteService";
 
 export class PostDeleteController {
   constructor(private postDeleteService: PostDeleteService) {}

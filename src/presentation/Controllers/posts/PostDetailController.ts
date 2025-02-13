@@ -1,4 +1,4 @@
-import {PostDetailService} from "../../../application/services/PostDetailService";
+import {PostDetailService} from "../../../application/services/posts/PostDetailService";
 
 export class PostDetailController {
   constructor(private postDetailService: PostDetailService) {}

@@ -1,4 +1,4 @@
-import {PostListService} from "../../../application/services/PostListService";
+import {PostListService} from "../../../application/services/posts/PostListService";
 
 export class PostListController {
   constructor(private postListService: PostListService) {}

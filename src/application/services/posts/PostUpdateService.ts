@@ -1,5 +1,5 @@
-import {PostRepository} from "../../infrastructure/Repositories/PostRepository";
 import {Post} from "@prisma/client";
+import {PostRepository} from "../../../infrastructure/Repositories/PostRepository";
 
 export class PostUpdateService {
   constructor(private postRepository: PostRepository) {}

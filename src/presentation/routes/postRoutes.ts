@@ -5,11 +5,11 @@ import {PostUpdateController} from "../Controllers/posts/PostUpdateController";
 import {PostDeleteController} from "../Controllers/posts/PostDeleteController";
 import express from "express";
 import {PostRepository} from "../../infrastructure/Repositories/PostRepository";
-import {PostListService} from "../../application/services/PostListService";
-import {PostDetailService} from "../../application/services/PostDetailService";
-import {PostDeleteService} from "../../application/services/PostDeleteService";
-import {PostCreateService} from "../../application/services/PostCreateService";
-import {PostUpdateService} from "../../application/services/PostUpdateService";
+import {PostUpdateService} from "../../application/services/posts/PostUpdateService";
+import {PostCreateService} from "../../application/services/posts/PostCreateService";
+import {PostDeleteService} from "../../application/services/posts/PostDeleteService";
+import {PostDetailService} from "../../application/services/posts/PostDetailService";
+import {PostListService} from "../../application/services/posts/PostListService";
 
 const router = express.Router();
 

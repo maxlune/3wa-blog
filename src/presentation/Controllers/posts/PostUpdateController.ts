@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import {PostUpdateService} from "../../../application/services/PostUpdateService";
+import {PostUpdateService} from "../../../application/services/posts/PostUpdateService";
 
 export class PostUpdateController {
   constructor(private postUpdateService: PostUpdateService) {}

@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
-import {IPostRepository} from "../../../domain/repositories-interfaces/IPostRepository";
-import {PostCreateService} from "../../../application/services/PostCreateService";
+import {PostCreateService} from "../../../application/services/posts/PostCreateService";
 
 export class PostCreateController {
   constructor(

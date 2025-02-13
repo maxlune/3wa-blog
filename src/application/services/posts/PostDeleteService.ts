@@ -1,4 +1,4 @@
-import {IPostRepository} from "../../domain/repositories-interfaces/IPostRepository";
+import {IPostRepository} from "../../../domain/repositories-interfaces/IPostRepository";
 
 export class PostDeleteService {
   constructor(private postRepository: IPostRepository) {}

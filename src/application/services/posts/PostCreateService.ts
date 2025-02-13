@@ -1,4 +1,4 @@
-import {PostRepository} from "../../infrastructure/Repositories/PostRepository";
+import {PostRepository} from "../../../infrastructure/Repositories/PostRepository";
 
 export class PostCreateService {
   constructor(private postRepository: PostRepository) {}
