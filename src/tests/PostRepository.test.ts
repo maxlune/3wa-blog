@@ -20,7 +20,7 @@ jest.mock("@prisma/client", () => {
   };
 });
 
-import {PostRepository} from "../Repositories/PostRepository";
+import {PostRepository} from "../infrastructure/Repositories/PostRepository";
 
 const mockedPosts: Post[] = [
   {

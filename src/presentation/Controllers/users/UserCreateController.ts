@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
-import {IUserRepository} from "../../interfaces/IUserRepository";
+import {IUserRepository} from "../../../domain/repositories-interfaces/IUserRepository";
 
 export class UserCreateController {
   constructor(private userRepository: IUserRepository) {}

@@ -1,10 +1,10 @@
 import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import http from "http"
-import router from "./routes";
-import session from "express-session";
 import methodOverride from "method-override";
 import cookieParser from "cookie-parser";
+import session from "express-session";
+import router from "./presentation/routes";
 
 dotenv.config();
 

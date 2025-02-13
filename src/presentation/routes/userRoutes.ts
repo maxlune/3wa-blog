@@ -5,7 +5,7 @@ import {UserCreateController} from "../Controllers/users/UserCreateController";
 import {UserDeleteController} from "../Controllers/users/UserDeleteController";
 import {UserLoginController} from "../Controllers/users/UserLoginController";
 import {UserLogoutController} from "../Controllers/users/UserLogoutController";
-import {UserRepository} from "../Repositories/UserRepository";
+import {UserRepository} from "../../infrastructure/Repositories/UserRepository";
 
 const router = express.Router()
 
