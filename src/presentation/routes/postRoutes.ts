@@ -8,6 +8,7 @@ import {PostRepository} from "../../infrastructure/Repositories/PostRepository";
 import {PostListService} from "../../application/services/PostListService";
 import {PostDetailService} from "../../application/services/PostDetailService";
 import {PostDeleteService} from "../../application/services/PostDeleteService";
+import {PostCreateService} from "../../application/services/PostCreateService";
 
 const router = express.Router();
 
@@ -15,7 +16,8 @@ const postRepository = new PostRepository();
 
 const postListService = new PostListService(postRepository);
 const postListController = new PostListController(postListService);
-const postCreateController = new PostCreateController(postRepository);
+const postCreateService = new PostCreateService(postRepository);
+const postCreateController = new PostCreateController(postCreateService);
 const postDetailService = new PostDetailService(postRepository);
 const postDetailController = new PostDetailController(postDetailService);
 const postDeleteService = new PostDeleteService(postRepository);
