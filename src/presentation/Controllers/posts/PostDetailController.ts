@@ -1,22 +1,22 @@
-import {IPostRepository} from "../../../domain/repositories-interfaces/IPostRepository";
+import {PostDetailService} from "../../../application/services/PostDetailService";
 
 export class PostDetailController {
-  constructor(private postRepository: IPostRepository) {}
+  constructor(private postDetailService: PostDetailService) {}
 
-  async detail(postId: string): Promise<any | null> {
+  detail = async(req: any, res: any): Promise<any | null> => {
     try {
-      const id = Number(postId);
+      const post = await this.postDetailService.detail(req.params.id);
 
-      if (isNaN(id)) {
-        throw new Error("ID non valide");
+      if (!post) {
+        return res.status(404).send("Article introuvable.");
       }
 
-      // console.log(await PostRepository.getPostById(id));
+      const isAuthenticated = !!req.cookies["connect.sid"];
 
-      return await this.postRepository.getPostById(id);
+      return res.render("posts/post-detail", { title: "Détail d'un article", post, isAuthenticated  });
     } catch (error) {
-      console.error("Erreur lors de la récupération du post:", error);
-      throw error; // Laisse la gestion de l'erreur à la route
+      console.error("Erreur dans la route /posts/:id :", error);
+      res.status(500).send("Erreur lors du chargement de l'article.");
     }
   }
 }
