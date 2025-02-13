@@ -12,7 +12,7 @@ export class UserLoginController {
   constructor(private userRepository: IUserRepository) {}
 
   // Affichage du formulaire
-  static async loginForm(req: Request, res: Response) {
+  loginForm = async(req: Request, res: Response) => {
 
     const isAuthenticated = !!req.cookies["connect.sid"];
     if (isAuthenticated) {
@@ -53,25 +53,4 @@ export class UserLoginController {
     }
   }
 
-  async me(req: CustomRequest, res: Response) {
-    if (req.session.userId) {
-      const user = await this.userRepository.findOneWithPosts(Number(req.session.userId));
-      if (user) {
-        return user
-      } else {
-        res.status(404).json({ error: "Utilisateur non trouvé" });
-      }
-    } else {
-      res.status(401).json({ error: "Non connecté" });
-    }
-  }
-
-  async detail(req: CustomRequest, res: Response) {
-      const user = await this.userRepository.findOneWithPosts(Number(req.params.id));
-      if (user) {
-        return user
-      } else {
-        res.status(404).json({ error: "Utilisateur non trouvé" });
-      }
-  }
 }

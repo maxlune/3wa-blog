@@ -1,14 +1,17 @@
-import {IUserRepository} from "../../../domain/repositories-interfaces/IUserRepository";
+import { UserListService } from "../../../application/services/users/UserListService";
 
 export class UserListController {
-  constructor(private userRepository: IUserRepository) {}
+  constructor(private userListService: UserListService) {}
 
-  async list(): Promise<any> {
+  list = async (req: any, res: any): Promise<any> => {
     try {
-      return await this.userRepository.findAll();
+      const users =  await this.userListService.list();
+      const isAuthenticated = !!req.cookies["connect.sid"];
+
+      res.render("users/users", { title: "Liste des utilisateurs", users, isAuthenticated });
     } catch (error) {
-      console.error('Erreur lors de la récupération des users:', error);
-      return null;
+      console.error("Erreur dans la route /posts:", error);
+      res.status(500).send("Erreur lors du chargement des utilisateurs.");
     }
   }
 }
