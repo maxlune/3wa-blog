@@ -6,5 +6,6 @@ export class PostDTO {
     readonly title: string,
     readonly content: string,
     readonly userId: number,
+    readonly nickname: string,
   ) {}
 }

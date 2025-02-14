@@ -5,7 +5,7 @@ import {PostDTO} from "../../dtos/PostDTO";
 export class PostCreateService {
   constructor(private postRepository: PostRepository) {}
 
-  private mapToDTO(post: PostEntity): PostDTO {
+  private mapToDTO(post: any): PostDTO {
     return {
       id: post.id,
       createdAt: post.createdAt,
@@ -13,6 +13,7 @@ export class PostCreateService {
       title: post.title.title,
       content: post.content.content,
       userId: post.userId,
+      nickname: post.nickname,
     }
   }
 

@@ -6,16 +6,40 @@ import {PostContent} from "../../domain/value-objects/posts/PostContent";
 const prisma = new PrismaClient();
 
 export class PostRepository {
-  async createPost(data: { title: string; content: string, userId: number}) {
+  async createPost(data: { title: string; content: string, userId: number}): Promise<any> {
     const posts = await prisma.post.create({ data });
-    return new PostEntity(
-      posts.id,
-      posts.createdAt,
-      posts.updatedAt,
-      new PostTitle(posts.title),
-      new PostContent(posts.content),
-      posts.userId
-    );
+    const postNickname = this.findOneWithUser(data.userId)
+    // return new PostEntity(
+    //   posts.id,
+    //   posts.createdAt,
+    //   posts.updatedAt,
+    //   new PostTitle(posts.title),
+    //   new PostContent(posts.content),
+    //   posts.userId,
+    // );
+    return {
+      id: posts.id,
+      createdAt: posts.createdAt,
+      updatedAt: posts.updatedAt,
+      title: new PostTitle(posts.title),
+      content: new PostContent(posts.content),
+      userId: posts.userId,
+      nickname: postNickname,
+    }
+  }
+
+  async findOneWithUser(id: number) {
+    return await prisma.post.findUnique({
+      where: { id: id },
+      include: {
+        user: {
+          select: {
+            id: true,
+            nickname: true,
+          }
+        }
+      }
+    })
   }
 
   async getPostById(postId: number) {
@@ -30,14 +54,23 @@ export class PostRepository {
       },
     });
     if (!posts) return null;
-    return new PostEntity(
-      posts.id,
-      posts.createdAt,
-      posts.updatedAt,
-      new PostTitle(posts.title),
-      new PostContent(posts.content),
-      posts.userId
-    );
+    // return new PostEntity(
+    //   posts.id,
+    //   posts.createdAt,
+    //   posts.updatedAt,
+    //   new PostTitle(posts.title),
+    //   new PostContent(posts.content),
+    //   posts.userId
+    // );
+    return {
+        id: posts.id,
+        createdAt: posts.createdAt,
+        updatedAt: posts.updatedAt,
+        title: new PostTitle(posts.title),
+        content: new PostContent(posts.content),
+        userId: posts.userId,
+        nickname: posts.user.nickname,
+    }
   }
 
   async getAllPosts(): Promise<PostEntity[]> {

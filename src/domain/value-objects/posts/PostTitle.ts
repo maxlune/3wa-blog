@@ -1,5 +1,5 @@
 export class PostTitle {
-  constructor(public value: string) {
+  constructor(private readonly value: string) {
     if (!value) {
       throw new Error("Le titre est requis");
     }
