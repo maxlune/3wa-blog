@@ -6,14 +6,15 @@ export class PostListService {
   constructor(private postRepository: IPostRepository) {}
 
   private mapToDTO(post: PostEntity): PostDTO {
-    return {
-      id: post.id,
-      createdAt: post.createdAt,
-      updatedAt: post.updatedAt,
-      title: post.title.title,
-      content: post.content.content,
-      userId: post.userId,
-    }
+    return new PostDTO(
+      post.id,
+      post.createdAt,
+      post.updatedAt,
+      post.title.title,
+      post.content.content,
+      post.userId,
+      post.nickname
+    )
   }
 
   async list(): Promise<PostDTO[] | null> {

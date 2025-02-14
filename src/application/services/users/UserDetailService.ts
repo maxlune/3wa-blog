@@ -1,9 +1,13 @@
-import { UserEntity } from "../../../domain/entities/UserEntity";
 import { IUserRepository } from "../../../domain/repositories-interfaces/IUserRepository";
 import { UserDTO } from "../../dtos/UserDTO";
+import {IPostRepository} from "../../../domain/repositories-interfaces/IPostRepository";
+import {PostDTO} from "../../dtos/PostDTO";
 
 export class UserDetailService {
-  constructor(private userRepository: IUserRepository) {}
+  constructor(
+    private userRepository: IUserRepository,
+    private postRepository: IPostRepository,
+  ) {}
 
   async detail(userId: number): Promise<any | null> {
     try {
@@ -13,10 +17,14 @@ export class UserDetailService {
         throw new Error("ID non valide");
       }
 
-      const user = await this.userRepository.findOneWithPosts(id);
+      const user = await this.userRepository.findOne(id);
+      const posts = await this.postRepository.findPostsFromUser(id);
       if (!user) return null;
 
-      return this.mapToDTO(user);
+      return {
+        user: UserDTO.fromEntity(user),
+        posts: posts.map(post => PostDTO.fromEntity(post)),
+      }
     } catch (error) {
       console.error("Erreur lors de la récupération de l'user:", error);
       throw error; // Laisse la gestion de l'erreur à la route
@@ -34,16 +42,6 @@ export class UserDetailService {
       throw new Error("Utilisateur non trouvé");
     }
 
-    return this.mapToDTO(user);
+    return UserDTO.fromEntity(user);
   }
-
-  private mapToDTO(user: UserEntity): UserDTO {
-    return {
-      id: user.id,
-      nickname: user.nickname,
-      email: user.email.toString(),
-      isContributor: user.isContributor
-    };
-  }
-
 }

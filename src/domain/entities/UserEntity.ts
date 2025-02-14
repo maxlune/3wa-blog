@@ -8,7 +8,5 @@ export class UserEntity {
         public email: Email,
         public password: Password,
         public isContributor: boolean,
-        // public createdAt: Date = new Date(),
-        // public updatedAt: Date = new Date(),
     ) {}
 }

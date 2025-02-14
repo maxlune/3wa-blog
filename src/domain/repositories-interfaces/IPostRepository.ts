@@ -7,4 +7,5 @@ export interface IPostRepository {
   deletePost(id: number): Promise<void>;
   postExists(id: number): Promise<PostEntity | null>;
   updatePost(id: number, data: Partial<{ title: string; content: string }>): Promise<PostEntity>;
+  findPostsFromUser(userId: number): Promise<PostEntity[]>;
 }

@@ -9,5 +9,6 @@ export class PostEntity {
     public title: PostTitle,
     public content: PostContent,
     public userId: number,
+    public nickname?: string,
   ) {}
 }

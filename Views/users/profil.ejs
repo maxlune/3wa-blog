@@ -2,18 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Profile de <%= user.nickname %></title>
+    <title>Profile de <%= user.user.nickname %></title>
 </head>
 <body>
     <h1><a href="/">Blog</a></h1>
 
-    <h1>Profile de <%= user.nickname %></h1>
-    <h2><%= user.nickname %></h2>
-    <h2><%= user.email %></h2>
+    <h1>Profile de <%= user.user.nickname %></h1>
+    <h2><%= user.user.nickname %></h2>
+    <h2><%= user.user.email %></h2>
 
     <span>Contributeur :</span>
-    <% if (user.isContributor) { %><span>Oui</span><% } %>
-    <% if (!user.isContributor) { %><span>Non</span><% } %>
+    <% if (user.user.isContributor) { %><span>Oui</span><% } %>
+    <% if (!user.user.isContributor) { %><span>Non</span><% } %>
 
     <h3>Articles publiés :</h3>
     <% if (user.posts && user.posts.length > 0) { %>

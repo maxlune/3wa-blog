@@ -5,7 +5,7 @@ import {PostDTO} from "../../dtos/PostDTO";
 export class PostDetailService {
   constructor(private postRepository: IPostRepository) {}
 
-  private mapToDTO(post: any): PostDTO {
+  private mapToDTO(post: PostEntity): PostDTO {
     return {
       id: post.id,
       createdAt: post.createdAt,
@@ -13,7 +13,7 @@ export class PostDetailService {
       title: post.title.title,
       content: post.content.content,
       userId: post.userId,
-      nickname: post.user.nickname,
+      nickname: post.nickname,
     }
   }
 
@@ -29,7 +29,6 @@ export class PostDetailService {
       if (!post) {
         return null;
       }
-      console.log(this.mapToDTO(post))
       return this.mapToDTO(post);
     } catch (error) {
       console.error("Erreur lors de la récupération du post:", error);

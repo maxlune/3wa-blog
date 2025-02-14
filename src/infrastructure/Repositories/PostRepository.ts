@@ -6,26 +6,30 @@ import {PostContent} from "../../domain/value-objects/posts/PostContent";
 const prisma = new PrismaClient();
 
 export class PostRepository {
-  async createPost(data: { title: string; content: string, userId: number}): Promise<any> {
+  async createPost(data: { title: string; content: string, userId: number}): Promise<PostEntity> {
     const posts = await prisma.post.create({ data });
-    const postNickname = this.findOneWithUser(data.userId)
-    // return new PostEntity(
-    //   posts.id,
-    //   posts.createdAt,
-    //   posts.updatedAt,
-    //   new PostTitle(posts.title),
-    //   new PostContent(posts.content),
-    //   posts.userId,
-    // );
-    return {
-      id: posts.id,
-      createdAt: posts.createdAt,
-      updatedAt: posts.updatedAt,
-      title: new PostTitle(posts.title),
-      content: new PostContent(posts.content),
-      userId: posts.userId,
-      nickname: postNickname,
-    }
+    return new PostEntity(
+      posts.id,
+      posts.createdAt,
+      posts.updatedAt,
+      new PostTitle(posts.title),
+      new PostContent(posts.content),
+      posts.userId,
+    );
+  }
+
+  async findPostsFromUser(userId: number): Promise<PostEntity[]> {
+    const posts = await prisma.post.findMany({
+      where: { userId: userId },
+    })
+    return posts.map(post => new PostEntity(
+      post.id,
+      post.createdAt,
+      post.updatedAt,
+      new PostTitle(post.title),
+      new PostContent(post.content),
+      post.userId,
+    ))
   }
 
   async findOneWithUser(id: number) {
@@ -54,14 +58,7 @@ export class PostRepository {
       },
     });
     if (!posts) return null;
-    // return new PostEntity(
-    //   posts.id,
-    //   posts.createdAt,
-    //   posts.updatedAt,
-    //   new PostTitle(posts.title),
-    //   new PostContent(posts.content),
-    //   posts.userId
-    // );
+
     return {
         id: posts.id,
         createdAt: posts.createdAt,
@@ -86,7 +83,7 @@ export class PostRepository {
       post.updatedAt,
       new PostTitle(post.title),
       new PostContent(post.content),
-      post.userId
+      post.userId,
     ));
   }
 

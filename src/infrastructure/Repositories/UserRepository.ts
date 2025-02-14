@@ -94,7 +94,7 @@ export class UserRepository {
       user.nickname,
       new Email(user.email),
       new Password(user.password),
-      user.isContributor
+      user.isContributor,
     );
   }
 }

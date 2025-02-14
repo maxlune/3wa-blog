@@ -9,13 +9,15 @@ import {UserRepository} from "../../infrastructure/Repositories/UserRepository";
 import { UserListService } from "../../application/services/users/UserListService";
 import { UserDetailService } from "../../application/services/users/UserDetailService";
 import { UserCreateService } from "../../application/services/users/UserCreateService";
+import {PostRepository} from "../../infrastructure/Repositories/PostRepository";
 
 const router = express.Router()
 
 const userRepository = new UserRepository();
+const postRepository = new PostRepository();
 
 const userListService = new UserListService(userRepository);
-const userDetailService = new UserDetailService(userRepository);
+const userDetailService = new UserDetailService(userRepository, postRepository);
 const userCreateService = new UserCreateService(userRepository);
 
 const userListController = new UserListController(userListService);
