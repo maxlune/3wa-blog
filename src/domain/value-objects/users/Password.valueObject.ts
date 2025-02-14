@@ -1,7 +1,7 @@
 export default class Password {
 
-    constructor(public value: string) {
-        if (!this.isValid(value)) {
+    constructor(public value: string, private isHashed: boolean = false) {
+        if (!isHashed && !this.isValid(value)) {
             throw new Error(`Invalid password: ${value}.`);
         }
     }
@@ -18,5 +18,9 @@ export default class Password {
 
     public toString(): string {
         return this.value;
+    }
+
+    public isHashedPassword(): boolean {
+        return this.value.startsWith("$2b$"); // Vérification si mdp hashé avec la signature bcrypt
     }
 }

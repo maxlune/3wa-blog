@@ -45,7 +45,6 @@ export class UserLoginController {
       }
 
       req.session.userId = user.id;
-      // res.json({ message: "Connexion réussie" });
       res.redirect("/users/me")
     } catch (error) {
       console.error("Erreur lors de la connexion:", error);
