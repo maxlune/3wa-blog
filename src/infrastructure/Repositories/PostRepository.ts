@@ -1,14 +1,24 @@
-import { PrismaClient } from "@prisma/client";
+import {PrismaClient} from "@prisma/client";
+import {PostEntity} from "../../domain/entities/PostEntity";
+import {PostTitle} from "../../domain/value-objects/posts/PostTitle";
 
 const prisma = new PrismaClient();
 
 export class PostRepository {
   async createPost(data: { title: string; content: string, userId: number}) {
-    return await prisma.post.create({ data });
+    const posts = await prisma.post.create({ data });
+    return new PostEntity(
+      posts.id,
+      posts.createdAt,
+      posts.updatedAt,
+      new PostTitle(posts.title),
+      posts.content,
+      posts.userId
+    );
   }
 
   async getPostById(postId: number) {
-    return await prisma.post.findUnique({
+    const posts = await prisma.post.findUnique({
       where: { id: postId },
       include: {
         user: {
@@ -18,21 +28,47 @@ export class PostRepository {
         },
       },
     });
+    if (!posts) return null;
+    return new PostEntity(
+      posts.id,
+      posts.createdAt,
+      posts.updatedAt,
+      new PostTitle(posts.title),
+      posts.content,
+      posts.userId
+    );
   }
 
-  async getAllPosts() {
-    return await prisma.post.findMany({
+  async getAllPosts(): Promise<PostEntity[]> {
+    const posts = await prisma.post.findMany({
       orderBy: {
         createdAt: "desc",
       },
     });
+
+    return posts.map(post => new PostEntity(
+      post.id,
+      post.createdAt,
+      post.updatedAt,
+      new PostTitle(post.title),
+      post.content,
+      post.userId
+    ));
   }
 
   async updatePost(postId: number, data: Partial<{ title: string; content: string }>) {
-    return await prisma.post.update({
+    const post = await prisma.post.update({
       where: { id: postId },
       data,
     });
+    return new PostEntity(
+      post.id,
+      post.createdAt,
+      post.updatedAt,
+      new PostTitle(post.title),
+      post.content,
+      post.userId
+    );
   }
 
   async deletePost(postId: number): Promise<void> {
@@ -41,9 +77,18 @@ export class PostRepository {
     });
   }
 
-  async postExists(postId: number): Promise<{id: number, createdAt: Date, updatedAt: Date, title: string, content: string, userId: number} | null> {
-    return await prisma.post.findUnique({
+  async postExists(postId: number): Promise<PostEntity | null> {
+    const post = await prisma.post.findUnique({
       where: { id: postId },
     });
+    if (!post) return null;
+    return new PostEntity(
+      post.id,
+      post.createdAt,
+      post.updatedAt,
+      new PostTitle(post.title),
+      post.content,
+      post.userId
+    );
   }
 }
