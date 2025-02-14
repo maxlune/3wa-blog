@@ -1,4 +1,5 @@
 import {PostTitle} from "../value-objects/posts/PostTitle";
+import {PostContent} from "../value-objects/posts/PostContent";
 
 export class PostEntity {
   constructor(
@@ -6,7 +7,7 @@ export class PostEntity {
     public createdAt: Date,
     public updatedAt: Date,
     public title: PostTitle,
-    public content: string,
+    public content: PostContent,
     public userId: number,
   ) {}
 }

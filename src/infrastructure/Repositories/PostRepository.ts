@@ -1,6 +1,7 @@
 import {PrismaClient} from "@prisma/client";
 import {PostEntity} from "../../domain/entities/PostEntity";
 import {PostTitle} from "../../domain/value-objects/posts/PostTitle";
+import {PostContent} from "../../domain/value-objects/posts/PostContent";
 
 const prisma = new PrismaClient();
 
@@ -12,7 +13,7 @@ export class PostRepository {
       posts.createdAt,
       posts.updatedAt,
       new PostTitle(posts.title),
-      posts.content,
+      new PostContent(posts.content),
       posts.userId
     );
   }
@@ -34,7 +35,7 @@ export class PostRepository {
       posts.createdAt,
       posts.updatedAt,
       new PostTitle(posts.title),
-      posts.content,
+      new PostContent(posts.content),
       posts.userId
     );
   }
@@ -51,7 +52,7 @@ export class PostRepository {
       post.createdAt,
       post.updatedAt,
       new PostTitle(post.title),
-      post.content,
+      new PostContent(post.content),
       post.userId
     ));
   }
@@ -66,7 +67,7 @@ export class PostRepository {
       post.createdAt,
       post.updatedAt,
       new PostTitle(post.title),
-      post.content,
+      new PostContent(post.content),
       post.userId
     );
   }
@@ -87,7 +88,7 @@ export class PostRepository {
       post.createdAt,
       post.updatedAt,
       new PostTitle(post.title),
-      post.content,
+      new PostContent(post.content),
       post.userId
     );
   }
