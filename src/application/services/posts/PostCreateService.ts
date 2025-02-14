@@ -1,7 +1,20 @@
 import {PostRepository} from "../../../infrastructure/Repositories/PostRepository";
+import {PostEntity} from "../../../domain/entities/PostEntity";
+import {PostDTO} from "../../dtos/PostDTO";
 
 export class PostCreateService {
   constructor(private postRepository: PostRepository) {}
+
+  private mapToDTO(post: PostEntity): PostDTO {
+    return {
+      id: post.id,
+      createdAt: post.createdAt,
+      updatedAt: post.updatedAt,
+      title: post.title.title,
+      content: post.content.content,
+      userId: post.userId,
+    }
+  }
 
   create = async (title: string, content: string, userId: number) => {
     if (!title || !content) {
@@ -12,6 +25,7 @@ export class PostCreateService {
       throw new Error("Vous devez être connecté pour créer un article.")
     }
 
-    await this.postRepository.createPost({ title, content, userId })
+    const post = await this.postRepository.createPost({ title, content, userId })
+    return this.mapToDTO(post);
   }
 }

@@ -7,8 +7,8 @@
 <body>
   <h1><a href="/">Blog</a></h1>
   <h2><%= title %></h2>
-    <p>Titre: <%= post.title.title %></p>
-    <p>Contenu: <%= post.content.content %></p>
+    <p>Titre: <%= post.title %></p>
+    <p>Contenu: <%= post.content %></p>
     <p>Auteur: <a href="/users/<%= post.userId %>"><%= post.user ? post.user.nickname : "Auteur inconnu" %></a></p>
     <button id="delete-btn">Supprimer cet article</button>
     <a href="/posts/<%= post.id %>/edit">
