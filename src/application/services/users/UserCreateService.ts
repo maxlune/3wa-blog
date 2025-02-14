@@ -1,5 +1,8 @@
+import { UserEntity } from "../../../domain/entities/UserEntity";
 import { IUserRepository } from "../../../domain/repositories-interfaces/IUserRepository";
 import bcrypt from "bcrypt";
+import Email from "../../../domain/value-objects/users/Email.valueObject";
+import Password from "../../../domain/value-objects/users/Password.valueObject";
 
 export class UserCreateService {
   constructor(private userRepository: IUserRepository) {}
@@ -20,11 +23,16 @@ export class UserCreateService {
     const hashedPassword = await bcrypt.hash(password, 10);
     const isContributorBoolean = isContributor === "true"; // Conversion en boolean
 
-    return await this.userRepository.create(
-      email,
+    // TODO: id number -> string uuid4
+    // TODO: DTO pour ne pas renvoyer le mdp
+    const userEntity = new UserEntity(
+      Math.floor(Math.random() * 2_147_483_647), // random int 32 bits
       nickname,
-      hashedPassword,
+      new Email(email),
+      new Password(hashedPassword),
       isContributorBoolean
     );
+
+    return await this.userRepository.create(userEntity);
   }
 }

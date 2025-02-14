@@ -38,7 +38,7 @@ export class UserLoginController {
         return
       }
 
-      const isValid = await bcrypt.compare(password, user.password);
+      const isValid = await bcrypt.compare(password, user.password.toString());
       if (!isValid) {
         res.status(401).json({ error: "Identifiants invalides" });
         return

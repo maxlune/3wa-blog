@@ -1,29 +1,64 @@
 import {PrismaClient, User} from "@prisma/client";
+import { UserEntity } from "../../domain/entities/UserEntity";
+import Email from "../../domain/value-objects/users/Email.valueObject";
+import Password from "../../domain/value-objects/users/Password.valueObject";
 
 const prisma = new PrismaClient();
 
 export class UserRepository {
-  async findAll() {
-    return prisma.user.findMany();
+
+  async findAll(): Promise<UserEntity[]> {
+    const users = await prisma.user.findMany();
+
+    // TODO: mapping DTO pour ne pas envoyer le mdp
+    return users.map(user => new UserEntity(
+      user.id,
+      user.nickname,
+      new Email(user.email),
+      new Password(user.password),
+      user.isContributor
+    ));
   }
 
-  async create(email: string, nickname: string, password: string, isContributor: boolean) {
-    return prisma.user.create({
+
+  async create(user: UserEntity): Promise<UserEntity> {
+    const createdUser = await prisma.user.create({
       data: {
-        email,
-        nickname,
-        password,
-        isContributor,
+        id: user.id,
+        email: user.email.toString(),
+        nickname: user.nickname,
+        password: user.password.toString(),
       }
     });
+
+    // TODO: mapping DTO pour ne pas envoyer le mdp
+    return new UserEntity(
+      createdUser.id,
+      createdUser.nickname,
+      new Email(createdUser.email),
+      new Password(createdUser.password),
+      createdUser.isContributor
+    );
   }
 
-  async findOne(id: number): Promise<User | null> {
-    return prisma.user.findUnique({ where: { id } });
+
+  async findOne(id: number): Promise<UserEntity | null> {
+    const user = await prisma.user.findUnique({ where: { id } });
+
+    if (!user) return null;
+    // TODO: mapping DTO pour ne pas envoyer le mdp
+    return new UserEntity(
+      user.id,
+      user.nickname,
+      new Email(user.email),
+      new Password(user.password),
+      user.isContributor
+    );
   }
 
-  async findOneWithPosts(id: number) {
-    return await prisma.user.findUnique({
+
+  async findOneWithPosts(id: number): Promise<UserEntity | null> {
+    const user = await prisma.user.findUnique({
       where: { id: id },
       include: {
         posts: {
@@ -36,13 +71,30 @@ export class UserRepository {
         },
       },
     });
+
+    if (!user) return null;
+    // TODO: mapping DTO pour ne pas envoyer le mdp
+    return new UserEntity(
+      user.id,
+      user.nickname,
+      new Email(user.email),
+      new Password(user.password),
+      user.isContributor,
+    );
   }
 
-  async findOneByEmail(email: string) {
-    return prisma.user.findUnique({ where: { email } });
-  }
 
-  async delete(id: number): Promise<void> {
-    prisma.user.delete({ where: { id } });
+  async findOneByEmail(email: string): Promise<UserEntity | null> {
+    const user = await prisma.user.findUnique({ where: { email } });
+
+    if (!user) return null;
+    // TODO: mapping DTO pour ne pas envoyer le mdp
+    return new UserEntity(
+      user.id,
+      user.nickname,
+      new Email(user.email),
+      new Password(user.password),
+      user.isContributor
+    );
   }
 }
