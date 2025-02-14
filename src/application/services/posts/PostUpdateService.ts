@@ -1,14 +1,14 @@
-import {Post} from "@prisma/client";
 import {PostRepository} from "../../../infrastructure/Repositories/PostRepository";
+import {PostEntity} from "../../../domain/entities/PostEntity";
 
 export class PostUpdateService {
   constructor(private postRepository: PostRepository) {}
 
   update = async(title: string, content: string, postId: number) => {
     const postExists = await this.postRepository.postExists(postId);
-    if (title === undefined && content === undefined) {
-      throw new Error("Au moins un des champs 'title' ou 'content' est requis pour la mise à jour.")
-    }
+    // if (title === undefined && content === undefined) {
+    //   throw new Error("Au moins un des champs 'title' ou 'content' est requis pour la mise à jour.")
+    // }
 
     if (!postExists) {
       throw new Error("Post non trouvé");
@@ -19,7 +19,7 @@ export class PostUpdateService {
     return this.postRepository.getPostById(postId);
   }
 
-  getPostById = async(id: number): Promise<Post | null> => {
+  getPostById = async(id: number): Promise<PostEntity | null> => {
     return await this.postRepository.getPostById(id);
   }
 }

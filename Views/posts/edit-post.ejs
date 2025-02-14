@@ -11,11 +11,11 @@
   <form action="/posts/<%= post.id %>?_method=PUT" method="POST">
     <div>
       <label for="title">Titre :</label>
-      <input type="text" id="title" name="title" value="<%= post.title %>" required>
+      <input type="text" id="title" name="title" value="<%= post.title.title %>" required>
     </div>
     <div>
       <label for="content">Contenu :</label>
-      <textarea id="content" name="content" rows="5" required><%= post.content %></textarea>
+      <textarea id="content" name="content" rows="5" required><%= post.content.content %></textarea>
     </div>
     <button type="submit">Mettre à jour</button>
   </form>
